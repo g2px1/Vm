@@ -7,8 +7,8 @@
 #include "stack"
 #include "iostream"
 #include <cstdlib>
-#define PUSH(vm, v) vm->stack[++vm->sp] = v // push value on top of the stack
-#define POP(vm)     vm->stack[vm->sp--]     // pop value from top of the stack
+#define PUSH(vm, v) vm->stack[++vm->sp] = v // push object on top of the stack
+#define POP(vm)     vm->stack[vm->sp--]     // pop object from top of the stack
 #define NCODE(vm)   vm->code[vm->pc++]      // get next bytecode
 
 class VM {

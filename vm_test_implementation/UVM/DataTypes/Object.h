@@ -12,31 +12,45 @@
 
 class Object {
 public:
-    Object() = default;
+    inline Object() = default;
+
+    inline explicit Object(std::string value) {
+        this->object = std::move(value);
+    }
 
     inline explicit Object(std::string &value) {
-        this->object = boost::json::parse(value).as_object();
+        this->object = value;
     }
 
-    inline explicit Object(boost::json::object object) {
-        this->object = std::move(object);
+    inline explicit Object(int b) {
+        this->object = std::to_string(b);
     }
 
-    boost::json::object object;
+    std::string object;
 
-    [[nodiscard]] inline std::optional<std::string> get(std::string key) const {
-        if(object.contains(key))
-        return boost::json::value_to<std::string>(this->object.at(key));
+    [[nodiscard]] virtual inline std::optional<std::string> get(std::string key) const {
+        boost::json::object obj = boost::json::parse(this->object).as_object();
+        if(obj.contains(key))
+            try {
+                return boost::json::value_to<std::string>(obj.at(key));
+            } catch (std::exception &e){
+                return std::nullopt;
+            }
         else
             return std::nullopt;
     }
 
-    virtual inline std::string toString() {
-        return boost::json::serialize(this->object);
+    inline virtual std::string toString() {
+        return object;
     }
 
-    virtual inline bool equals(Object &object1) {
+    inline virtual bool equals(Object &object1) {
         return this->object == object1.object;
+    }
+
+    inline friend std::ostream &operator<<(std::ostream &os, const Object &obj) {
+        os << obj.object;
+        return os;
     }
 };
 

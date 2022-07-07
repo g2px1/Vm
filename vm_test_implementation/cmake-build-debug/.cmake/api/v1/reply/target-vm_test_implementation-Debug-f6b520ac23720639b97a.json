@@ -111,7 +111,15 @@
 			[
 				2,
 				3,
-				4
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12
 			]
 		}
 	],
@@ -141,7 +149,47 @@
 		},
 		{
 			"backtrace" : 1,
-			"path" : "UVM/STRUCTURES/Object.h",
+			"path" : "UVM/DataTypes/Object.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "UVM/DataTypes/u128.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "UVM/DataTypes/u256.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "UVM/DataTypes/u64.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "UVM/DataTypes/i32.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "UVM/DataTypes/boolean.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "UVM/DataTypes/d64.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "UVM/DataTypes/str.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "UVM/DataTypes/collection.h",
 			"sourceGroupIndex" : 1
 		}
 	],
