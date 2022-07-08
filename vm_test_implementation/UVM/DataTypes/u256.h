@@ -28,6 +28,10 @@ public:
         this->value = std::move(u);
     }
 
+    inline explicit u256(const std::string& str) {
+        this->value = boost::multiprecision::uint256_t(str);
+    }
+
     boost::multiprecision::uint256_t value;
 
     [[nodiscard]] inline const boost::multiprecision::uint256_t &getValue() const {

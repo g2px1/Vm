@@ -5,7 +5,6 @@
 #ifndef VM_TEST_IMPLEMENTATION_OBJECT_H
 #define VM_TEST_IMPLEMENTATION_OBJECT_H
 #include "iostream"
-
 #include <boost/json/src.hpp>
 #include <utility>
 #include "boost/json/object.hpp"
@@ -51,6 +50,18 @@ public:
     inline friend std::ostream &operator<<(std::ostream &os, const Object &obj) {
         os << obj.object;
         return os;
+    }
+//
+    // implicit conversion
+    template<class T>
+    inline operator T() const {
+        return T(this->object);
+    }
+
+    // explicit conversion
+    template<class T>
+    inline explicit operator Object *() const {
+        return new T(this->object);
     }
 };
 

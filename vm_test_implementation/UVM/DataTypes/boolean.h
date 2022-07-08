@@ -16,9 +16,10 @@ public:
         this->value = value;
     }
 
-    inline explicit boolean(std::string &str) : Object(std::move(str)){
+    inline explicit boolean(const std::string &str){ // : Object(std::move(str))
         try {
             this->value = boost::lexical_cast<bool>(str);
+            std::cout << "ok" << std::endl;
         } catch (boost::bad_lexical_cast::bad_lexical_cast::bad_cast &) {
             this->value = (str == "true");
         }
@@ -39,7 +40,7 @@ public:
     }
 
     inline friend std::ostream &operator<<(std::ostream &os, const boolean &boolean1) {
-        os << boolean1.object;
+        os << boolean1.value;
         return os;
     }
 

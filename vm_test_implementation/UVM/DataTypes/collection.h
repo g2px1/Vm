@@ -34,7 +34,7 @@ public:
         return (T) this->value[index];
     }
 
-    Object& operator[](int index) {
+    inline Object& operator[](int index) {
         return this->value[index];
     }
 };

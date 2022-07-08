@@ -1,14 +1,16 @@
 #include <iostream>
 #include "UVM/DataTypes/Object.h"
 #include "UVM/DataTypes/u128.h"
+#include "UVM/DataTypes/u256.h"
 #include "UVM/DataTypes/boolean.h"
-//#include "boost/multiprecision/cpp_int.hpp"
-
+#include "UVM/DataTypes/d64.h"
+#include "UVM/DataTypes/str.h"
+#include "boost/multiprecision/cpp_int.hpp"
 #include "UVM/DataTypes/collection.h"
 
 int main() {
-    std::string str = R"({"test": "1"})";
-    std::string str1 = R"({"test": "2"})";
+//    std::string str = R"({"test": "1"})";
+//    std::string str1 = R"({"test": "2"})";
 //    Object object = Object(str);
 //    Object object1 = Object(str1);
 //    Object object2 = u128();
@@ -20,16 +22,22 @@ int main() {
 //
 //    std::cout << str;
 
-    u128 u = u128(1231);
-    boolean boolean1 = boolean(1);
-    Object object = Object(1);
+    u128 u = u128(pow(2,127));
+    boolean boolean1 = boolean(true);
+    d64 d1 = d64(1021.1012);
     collection collection;
 
     collection.push_back(u);
     collection.push_back(boolean1);
-    collection.push_back(object);
+    collection.push_back(d1);
 
-//    std::cout << collection.getWithCast<u128>(0);
+    std::cout << collection.value.at(1);
+
+//    boost::multiprecision::uint128_t uint128("2132312");
+//
+//    std::string str2 = "10.432523453";
+//    d64 d = d64(str2);
+//    std::cout << d << std::endl;
 
     return 0;
 }

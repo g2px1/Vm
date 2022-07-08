@@ -30,6 +30,10 @@ public:
         this->value = std::move(u);
     }
 
+    inline explicit u128(const std::string& str) {
+        this->value = boost::multiprecision::uint128_t(str);
+    }
+
     boost::multiprecision::uint128_t value;
 
     [[nodiscard]] inline const boost::multiprecision::uint128_t &getValue() const {

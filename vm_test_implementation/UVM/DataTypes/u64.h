@@ -26,6 +26,11 @@ public:
         this->value = u;
     }
 
+    inline explicit u64(const std::string &str) {
+        std::istringstream iss(str);
+        iss >> this->value;
+    }
+
     uint64_t value{};
 
     [[nodiscard]] inline const uint64_t &getValue() const {

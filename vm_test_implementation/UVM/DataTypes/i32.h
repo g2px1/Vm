@@ -18,6 +18,11 @@ public:
         this->value = u;
     }
 
+    inline explicit i32(const std::string &str) {
+        std::istringstream iss(str);
+        iss >> this->value;
+    }
+
     int value{};
 
     [[nodiscard]] inline const int &getValue() const {

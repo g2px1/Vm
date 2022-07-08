@@ -12,7 +12,7 @@ class str : public Object {
 public:
     inline str() = default;
 
-    inline explicit str(std::string value) : Object(std::move(value)) {
+    inline explicit str(std::string value) { //: Object(std::move(value))
         this->value = std::move(value);
     }
 
@@ -71,6 +71,11 @@ public:
         return new Object(this->value);
     }
 
+    inline str &operator=(std::string &rhs) {
+        this->value = rhs;
+        return *this;
+    }
+
 private:
     inline std::string operator+(const str &rhs) const {
         return (this->value + rhs.value);
@@ -101,7 +106,6 @@ private:
     bool operator!=(const str &rhs) const {
         return !(rhs == *this);
     }
-
 
 };
 

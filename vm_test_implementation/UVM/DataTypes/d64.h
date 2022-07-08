@@ -19,6 +19,10 @@ public:
         this->value = u;
     }
 
+    inline explicit d64(const std::string &str) {
+        this->value = std::stod(str);
+    }
+
     double value{};
 
     [[nodiscard]] inline const double &getValue() const {
@@ -123,6 +127,11 @@ public:
 
     inline d64 &operator=(const d64 &c2) {
         this->value = c2.value;
+        return *this;
+    }
+
+    inline d64 &operator=(const double &c2) {
+        this->value = c2;
         return *this;
     }
 
