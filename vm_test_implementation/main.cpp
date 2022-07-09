@@ -22,7 +22,8 @@ int main() {
 //
 //    std::cout << str;
 
-    u128 u = u128(pow(2,127));
+    u128 u = u128(pow(2,2));
+    u256 u2 = u256(pow(2,20));
     boolean boolean1 = boolean(true);
     d64 d1 = d64(1021.1012);
     collection collection;
@@ -31,7 +32,10 @@ int main() {
     collection.push_back(boolean1);
     collection.push_back(d1);
 
-    std::cout << collection.value.at(1);
+//    std::cout << collection.find(u2);
+
+    std::cout << u << std::endl << u2 << std::endl;
+    std::cout << (u2 > u);
 
 //    boost::multiprecision::uint128_t uint128("2132312");
 //

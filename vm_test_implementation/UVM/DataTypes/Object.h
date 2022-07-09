@@ -47,6 +47,14 @@ public:
         return this->object == object1.object;
     }
 
+    inline bool operator<(const Object &rhs) const {
+        return this->object < rhs.object;
+    }
+
+    inline bool operator>(const Object &rhs) const {
+        return rhs < *this;
+    }
+
     inline friend std::ostream &operator<<(std::ostream &os, const Object &obj) {
         os << obj.object;
         return os;

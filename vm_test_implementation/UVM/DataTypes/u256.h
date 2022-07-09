@@ -46,28 +46,56 @@ public:
         return this->value == rhs.value;
     }
 
+    inline bool operator==(const Object &rhs) const {
+        return this->value == ((u256)rhs).value;
+    }
+
     inline bool operator!=(const u256 &rhs) const {
         return !(rhs == *this);
+    }
+
+    inline bool operator!=(const Object &rhs) const {
+        return !((u256) rhs == *this);
     }
 
     inline bool operator<(const u256 &rhs) const {
         return value < rhs.value;
     }
 
+    inline bool operator<(const Object &rhs) const {
+        return value < ((u256)rhs).value;
+    }
+
     inline bool operator>(const u256 &rhs) const {
         return rhs < *this;
+    }
+
+    inline bool operator>(const Object &rhs) const {
+        return (u256) rhs < *this;
     }
 
     inline bool operator<=(const u256 &rhs) const {
         return !(rhs < *this);
     }
 
+    inline bool operator<=(const Object &rhs) const {
+        return !((u256) rhs < *this);
+    }
+
     inline bool operator>=(const u256 &rhs) const {
         return !(*this < rhs);
     }
 
+    inline bool operator>=(const Object &rhs) const {
+        return !(*this < (u256) rhs);
+    }
+
     inline boost::multiprecision::uint256_t operator+(const u256 &rhs) const {
         return (this->value + rhs.value);
+    }
+
+    inline boost::multiprecision::uint256_t operator+(const Object &rhs) const {
+        return (this->value + ((u256) rhs).value);
     }
 
     inline boost::multiprecision::uint256_t operator-(const u256 &rhs) const {
@@ -76,8 +104,19 @@ public:
         return (this->value - rhs.value);
     }
 
+    inline boost::multiprecision::uint256_t operator-(const Object &rhs) const {
+        if (*this < rhs)
+            return 0;
+        return (this->value - ((u256) rhs).value);
+    }
+
     inline u256 &operator+=(u256 &c2) {
         this->value += c2.value;
+        return *this;
+    }
+
+    inline u256 &operator+=(Object &c2) {
+        this->value +=  ((u256) c2).value;
         return *this;
     }
 
@@ -87,6 +126,15 @@ public:
             return c1;
         }
         this->value -= c2.value;
+        return *this;
+    }
+
+    inline u256 &operator-=(Object &c2) {
+        if (*this < ((u256) c2)) {
+            u256 c1 = u256(0);
+            return c1;
+        }
+        this->value -= ((u256) c2).value;
         return *this;
     }
 
@@ -116,20 +164,40 @@ public:
         return (this->value * rhs.value);
     }
 
+    inline boost::multiprecision::uint256_t operator*(const Object &rhs) const {
+        return (this->value * ((u256) rhs).value);
+    }
+
     inline boost::multiprecision::uint256_t operator/(const u256 &rhs) const {
         return (this->value / rhs.value);
+    }
+
+    inline boost::multiprecision::uint256_t operator/(const Object &rhs) const {
+        return (this->value / ((u256) rhs).value);
     }
 
     inline boost::multiprecision::uint256_t operator%(const u256 &rhs) const {
         return (this->value % rhs.value);
     }
 
+    inline boost::multiprecision::uint256_t operator%(const Object &rhs) const {
+        return (this->value % ((u256) rhs).value);
+    }
+
     inline boost::multiprecision::uint256_t operator^(const u256 &rhs) const {
         return (this->value ^ rhs.value);
     }
 
+    inline boost::multiprecision::uint256_t operator^(const Object &rhs) const {
+        return (this->value ^ ((u256) rhs).value);
+    }
+
     inline boost::multiprecision::uint256_t operator&(const u256 &rhs) const {
         return (this->value & rhs.value);
+    }
+
+    inline boost::multiprecision::uint256_t operator&(const Object &rhs) const {
+        return (this->value & ((u256) rhs).value);
     }
 
     inline u256 operator<<(const int num) const {
@@ -145,8 +213,18 @@ public:
         return *this;
     }
 
+    inline u256 &operator*=(Object &c2) {
+        this->value *= ((u256) c2).value;
+        return *this;
+    }
+
     inline u256 &operator/=(u256 &c2) {
         this->value /= c2.value;
+        return *this;
+    }
+
+    inline u256 &operator/=(Object &c2) {
+        this->value /= ((u256) c2).value;
         return *this;
     }
 
@@ -155,8 +233,18 @@ public:
         return *this;
     }
 
+    inline u256 &operator%=(Object &c2) {
+        this->value %= ((u256) c2).value;
+        return *this;
+    }
+
     inline u256 &operator^=(u256 &c2) {
         this->value ^= c2.value;
+        return *this;
+    }
+
+    inline u256 &operator^=(Object &c2) {
+        this->value ^= ((u256) c2).value;
         return *this;
     }
 
@@ -165,8 +253,18 @@ public:
         return *this;
     }
 
+    inline u256 &operator&=(Object &c2) {
+        this->value &= ((u256) c2).value;
+        return *this;
+    }
+
     inline u256 &operator=(const u256 &c2) {
         this->value = c2.value;
+        return *this;
+    }
+
+    inline u256 &operator=(Object &c2) {
+        this->value = ((u256) c2).value;
         return *this;
     }
 

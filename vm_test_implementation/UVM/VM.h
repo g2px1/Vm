@@ -7,6 +7,16 @@
 #include "stack"
 #include "iostream"
 #include <cstdlib>
+//#include "DataTypes/Object.h"
+//#include "DataTypes/u256.h"
+//#include "DataTypes/u128.h"
+//#include "DataTypes/u64.h"
+//#include "DataTypes/i32.h"
+//#include "DataTypes/d64.h"
+//#include "DataTypes/boolean.h"
+//#include "DataTypes/str.h"
+//#include "DataTypes/collection.h"
+
 #define PUSH(vm, v) vm->stack[++vm->sp] = v // push object on top of the stack
 #define POP(vm)     vm->stack[vm->sp--]     // pop object from top of the stack
 #define NCODE(vm)   vm->code[vm->pc++]      // get next bytecode

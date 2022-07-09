@@ -45,28 +45,56 @@ public:
         return this->value == rhs.value;
     }
 
+    inline bool operator==(const Object &rhs) const {
+        return this->value == ((u64) rhs).value;
+    }
+
     inline bool operator!=(const u64 &rhs) const {
         return !(rhs == *this);
+    }
+
+    inline bool operator!=(const Object &rhs) const {
+        return !(((u64) rhs) == *this);
     }
 
     inline bool operator<(const u64 &rhs) const {
         return value < rhs.value;
     }
 
+    inline bool operator<(const Object &rhs) const {
+        return value < ((u64) rhs).value;
+    }
+
     inline bool operator>(const u64 &rhs) const {
         return rhs < *this;
+    }
+
+    inline bool operator>(const Object &rhs) const {
+        return ((u64) rhs) < *this;
     }
 
     inline bool operator<=(const u64 &rhs) const {
         return !(rhs < *this);
     }
 
+    inline bool operator<=(const Object &rhs) const {
+        return !(((u64) rhs) < *this);
+    }
+
     inline bool operator>=(const u64 &rhs) const {
         return !(*this < rhs);
     }
 
+    inline bool operator>=(const Object &rhs) const {
+        return !(*this < ((u64) rhs));
+    }
+
     inline uint64_t operator+(const u64 &rhs) const {
         return (this->value + rhs.value);
+    }
+
+    inline uint64_t operator+(const Object &rhs) const {
+        return (this->value + ((u64) rhs).value);
     }
 
     inline uint64_t operator-(const u64 &rhs) const {
@@ -75,8 +103,19 @@ public:
         return (this->value - rhs.value);
     }
 
+    inline uint64_t operator-(const Object &rhs) const {
+        if (*this < ((u64) rhs))
+            return 0;
+        return (this->value - ((u64) rhs).value);
+    }
+
     inline u64 &operator+=(u64 &c2) {
         this->value += c2.value;
+        return *this;
+    }
+
+    inline u64 &operator+=(Object &c2) {
+        this->value += ((u64) c2).value;
         return *this;
     }
 
@@ -86,6 +125,15 @@ public:
             return c1;
         }
         this->value -= c2.value;
+        return *this;
+    }
+
+    inline u64 &operator-=(Object &c2) {
+        if (*this < ((u64) c2)) {
+            u64 c1 = u64(0);
+            return c1;
+        }
+        this->value -= ((u64) c2).value;
         return *this;
     }
 
@@ -111,24 +159,44 @@ public:
         return *this;
     }
 
-    inline uint64_t operator*(const u64 &rhs) const {
-        return (this->value * rhs.value);
+    inline u64 operator*(const u64 &rhs) const {
+        return u64(this->value * rhs.value);
     }
 
-    inline uint64_t operator/(const u64 &rhs) const {
-        return (this->value / rhs.value);
+    inline u64 operator*(const Object &rhs) const {
+        return u64(this->value * ((u64) rhs).value);
     }
 
-    inline uint64_t operator%(const u64 &rhs) const {
-        return (this->value % rhs.value);
+    inline u64 operator/(const u64 &rhs) const {
+        return u64(this->value / rhs.value);
     }
 
-    inline uint64_t operator^(const u64 &rhs) const {
-        return (this->value ^ rhs.value);
+    inline u64 operator/(const Object &rhs) const {
+        return u64(this->value / ((u64) rhs).value);
     }
 
-    inline uint64_t operator&(const u64 &rhs) const {
-        return (this->value & rhs.value);
+    inline u64 operator%(const u64 &rhs) const {
+        return u64(this->value % rhs.value);
+    }
+
+    inline u64 operator%(const Object &rhs) const {
+        return u64(this->value % ((u64) rhs).value);
+    }
+
+    inline u64 operator^(const u64 &rhs) const {
+        return u64(this->value ^ rhs.value);
+    }
+
+    inline u64 operator^(const Object &rhs) const {
+        return u64(this->value ^ ((u64) rhs).value);
+    }
+
+    inline u64 operator&(const u64 &rhs) const {
+        return u64(this->value & rhs.value);
+    }
+
+    inline u64 operator&(const Object &rhs) const {
+        return u64(this->value & ((u64) rhs).value);
     }
 
     inline u64 operator<<(const int num) const {
@@ -144,8 +212,18 @@ public:
         return *this;
     }
 
+    inline u64 &operator*=(Object &c2) {
+        this->value *= ((u64) c2).value;
+        return *this;
+    }
+
     inline u64 &operator/=(u64 &c2) {
         this->value /= c2.value;
+        return *this;
+    }
+
+    inline u64 &operator/=(Object &c2) {
+        this->value /= ((u64) c2).value;
         return *this;
     }
 
@@ -154,8 +232,18 @@ public:
         return *this;
     }
 
+    inline u64 &operator%=(Object &c2) {
+        this->value %= ((u64) c2).value;
+        return *this;
+    }
+
     inline u64 &operator^=(u64 &c2) {
         this->value ^= c2.value;
+        return *this;
+    }
+
+    inline u64 &operator^=(Object &c2) {
+        this->value ^= ((u64) c2).value;
         return *this;
     }
 
@@ -164,8 +252,18 @@ public:
         return *this;
     }
 
+    inline u64 &operator&=(Object &c2) {
+        this->value &= ((u64) c2).value;
+        return *this;
+    }
+
     inline u64 &operator=(const u64 &c2) {
         this->value = c2.value;
+        return *this;
+    }
+
+    inline u64 &operator=(Object &c2) {
+        this->value = ((u64) c2).value;
         return *this;
     }
 

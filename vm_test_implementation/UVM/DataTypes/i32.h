@@ -37,38 +37,77 @@ public:
         return this->value == rhs.value;
     }
 
+    inline bool operator==(const Object &rhs) const {
+        return this->value == ((i32) rhs).value;
+    }
+
     inline bool operator!=(const i32 &rhs) const {
         return !(rhs == *this);
+    }
+
+    inline bool operator!=(const Object &rhs) const {
+        return !(((i32) rhs) == *this);
     }
 
     inline bool operator<(const i32 &rhs) const {
         return value < rhs.value;
     }
 
+    inline bool operator<(const Object &rhs) const {
+        return value < ((i32) rhs).value;
+    }
+
     inline bool operator>(const i32 &rhs) const {
         return rhs < *this;
+    }
+
+    inline bool operator>(const Object &rhs) const {
+        return ((i32) rhs) < *this;
     }
 
     inline bool operator<=(const i32 &rhs) const {
         return !(rhs < *this);
     }
 
+    inline bool operator<=(const Object &rhs) const {
+        return !(((i32) rhs) < *this);
+    }
+
     inline bool operator>=(const i32 &rhs) const {
         return !(*this < rhs);
     }
 
-    inline int operator+(const i32 &rhs) const {
-        return (this->value + rhs.value);
+    inline bool operator>=(const Object &rhs) const {
+        return !(*this < ((i32) rhs));
     }
 
-    inline int operator-(const i32 &rhs) const {
+    inline i32 operator+(const i32 &rhs) const {
+        return i32(this->value + rhs.value);
+    }
+
+    inline i32 operator+(const Object &rhs) const {
+        return i32(this->value + ((i32) rhs).value);
+    }
+
+    inline i32 operator-(const i32 &rhs) const {
         if (*this < rhs)
-            return 0;
-        return (this->value - rhs.value);
+            return i32(0);
+        return i32(this->value - rhs.value);
+    }
+
+    inline i32 operator-(const Object &rhs) const {
+        if (*this < ((i32) rhs))
+            return i32(0);
+        return i32(this->value - ((i32) rhs).value);
     }
 
     inline i32 &operator+=(i32 &c2) {
         this->value += c2.value;
+        return *this;
+    }
+
+    inline i32 &operator+=(Object &c2) {
+        this->value += ((i32) c2).value;
         return *this;
     }
 
@@ -81,13 +120,22 @@ public:
         return *this;
     }
 
+    inline i32 &operator-=(Object &c2) {
+        if (*this < ((i32) c2)) {
+            i32 c1 = i32(0);
+            return c1;
+        }
+        this->value -= ((i32) c2).value;
+        return *this;
+    }
+
     // prefix
     inline i32 &operator++() {
         value += 1;
         return *this;
     }
 
-    i32 &operator--() {
+    inline i32 &operator--() {
         value -= 1;
         return *this;
     }
@@ -103,24 +151,44 @@ public:
         return *this;
     }
 
-    inline int operator*(const i32 &rhs) const {
-        return (this->value * rhs.value);
+    inline i32 operator*(const i32 &rhs) const {
+        return i32(this->value * rhs.value);
     }
 
-    inline int operator/(const i32 &rhs) const {
-        return (this->value / rhs.value);
+    inline i32 operator*(const Object &rhs) const {
+        return i32(this->value * ((i32) rhs).value);
     }
 
-    inline int operator%(const i32 &rhs) const {
-        return (this->value % rhs.value);
+    inline i32 operator/(const i32 &rhs) const {
+        return i32(this->value / rhs.value);
     }
 
-    inline int operator^(const i32 &rhs) const {
-        return (this->value ^ rhs.value);
+    inline i32 operator/(const Object &rhs) const {
+        return i32(this->value / ((i32) rhs).value);
     }
 
-    inline int operator&(const i32 &rhs) const {
-        return (this->value & rhs.value);
+    inline i32 operator%(const i32 &rhs) const {
+        return i32(this->value % rhs.value);
+    }
+
+    inline i32 operator%(const Object &rhs) const {
+        return i32(this->value % ((i32) rhs).value);
+    }
+
+    inline i32 operator^(const i32 &rhs) const {
+        return i32(this->value ^ rhs.value);
+    }
+
+    inline i32 operator^(const Object &rhs) const {
+        return i32(this->value ^ ((i32) rhs).value);
+    }
+
+    inline i32 operator&(const i32 &rhs) const {
+        return i32(this->value & rhs.value);
+    }
+
+    inline i32 operator&(const Object &rhs) const {
+        return i32(this->value & ((i32) rhs).value);
     }
 
     inline i32 operator<<(const int num) const {
@@ -136,8 +204,18 @@ public:
         return *this;
     }
 
+    inline i32 &operator*=(Object &c2) {
+        this->value *= ((i32) c2).value;
+        return *this;
+    }
+
     inline i32 &operator/=(i32 &c2) {
         this->value /= c2.value;
+        return *this;
+    }
+
+    inline i32 &operator/=(Object &c2) {
+        this->value /= ((i32) c2).value;
         return *this;
     }
 
@@ -146,8 +224,18 @@ public:
         return *this;
     }
 
+    inline i32 &operator%=(Object &c2) {
+        this->value %= ((i32) c2).value;
+        return *this;
+    }
+
     inline i32 &operator^=(i32 &c2) {
         this->value ^= c2.value;
+        return *this;
+    }
+
+    inline i32 &operator^=(Object &c2) {
+        this->value ^= ((i32) c2).value;
         return *this;
     }
 
@@ -156,8 +244,18 @@ public:
         return *this;
     }
 
+    inline i32 &operator&=(Object &c2) {
+        this->value &= ((i32) c2).value;
+        return *this;
+    }
+
     inline i32 &operator=(const i32 &c2) {
         this->value = c2.value;
+        return *this;
+    }
+
+    inline i32 &operator=(Object &c2) {
+        this->value = ((i32) c2).value;
         return *this;
     }
 
@@ -168,12 +266,12 @@ public:
 
     // implicit conversion
     inline operator Object() const {
-        return Object(this->value);
+        return Object(std::to_string(this->value));
     }
 
     // explicit conversion
     inline explicit operator Object *() const {
-        return new Object(this->value);
+        return new Object(std::to_string(this->value));
     }
 };
 #endif //VM_TEST_IMPLEMENTATION_I32_H

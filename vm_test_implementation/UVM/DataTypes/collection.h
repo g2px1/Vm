@@ -6,6 +6,7 @@
 #define VM_TEST_IMPLEMENTATION_COLLECTION_H
 #include "Object.h"
 #include "vector"
+#include "algorithm"
 
 class collection : public Object{
 public:
@@ -22,6 +23,10 @@ public:
 
     inline void pop_back() {
         return value.pop_back();
+    }
+
+    inline bool find(Object &obj) {
+        return std::binary_search(this->value.begin(), this->value.end(), obj);
     }
 
     template<class T>
