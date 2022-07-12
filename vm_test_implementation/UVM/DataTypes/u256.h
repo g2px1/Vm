@@ -90,24 +90,24 @@ public:
         return !(*this < (u256) rhs);
     }
 
-    inline boost::multiprecision::uint256_t operator+(const u256 &rhs) const {
-        return (this->value + rhs.value);
+    inline u256 operator+(const u256 &rhs) const {
+        return u256(this->value + rhs.value);
     }
 
-    inline boost::multiprecision::uint256_t operator+(const Object &rhs) const {
-        return (this->value + ((u256) rhs).value);
+    inline u256 operator+(const Object &rhs) const {
+        return u256(this->value + ((u256) rhs).value);
     }
 
-    inline boost::multiprecision::uint256_t operator-(const u256 &rhs) const {
+    inline u256 operator-(const u256 &rhs) const {
         if (*this < rhs)
-            return 0;
-        return (this->value - rhs.value);
+            return u256(0);
+        return u256(this->value - rhs.value);
     }
 
-    inline boost::multiprecision::uint256_t operator-(const Object &rhs) const {
+    inline u256 operator-(const Object &rhs) const {
         if (*this < rhs)
-            return 0;
-        return (this->value - ((u256) rhs).value);
+            return u256(0);
+        return u256(this->value - ((u256) rhs).value);
     }
 
     inline u256 &operator+=(u256 &c2) {
@@ -160,44 +160,44 @@ public:
         return *this;
     }
 
-    inline boost::multiprecision::uint256_t operator*(const u256 &rhs) const {
-        return (this->value * rhs.value);
+    inline u256 operator*(const u256 &rhs) const {
+        return u256(this->value * rhs.value);
     }
 
-    inline boost::multiprecision::uint256_t operator*(const Object &rhs) const {
-        return (this->value * ((u256) rhs).value);
+    inline u256 operator*(const Object &rhs) const {
+        return u256(this->value * ((u256) rhs).value);
     }
 
-    inline boost::multiprecision::uint256_t operator/(const u256 &rhs) const {
-        return (this->value / rhs.value);
+    inline u256 operator/(const u256 &rhs) const {
+        return u256(this->value / rhs.value);
     }
 
-    inline boost::multiprecision::uint256_t operator/(const Object &rhs) const {
-        return (this->value / ((u256) rhs).value);
+    inline u256 operator/(const Object &rhs) const {
+        return u256(this->value / ((u256) rhs).value);
     }
 
-    inline boost::multiprecision::uint256_t operator%(const u256 &rhs) const {
-        return (this->value % rhs.value);
+    inline u256 operator%(const u256 &rhs) const {
+        return u256(this->value % rhs.value);
     }
 
-    inline boost::multiprecision::uint256_t operator%(const Object &rhs) const {
-        return (this->value % ((u256) rhs).value);
+    inline u256 operator%(const Object &rhs) const {
+        return u256(this->value % ((u256) rhs).value);
     }
 
-    inline boost::multiprecision::uint256_t operator^(const u256 &rhs) const {
-        return (this->value ^ rhs.value);
+    inline u256 operator^(const u256 &rhs) const {
+        return u256(this->value ^ rhs.value);
     }
 
-    inline boost::multiprecision::uint256_t operator^(const Object &rhs) const {
-        return (this->value ^ ((u256) rhs).value);
+    inline u256 operator^(const Object &rhs) const {
+        return u256(this->value ^ ((u256) rhs).value);
     }
 
-    inline boost::multiprecision::uint256_t operator&(const u256 &rhs) const {
-        return (this->value & rhs.value);
+    inline u256 operator&(const u256 &rhs) const {
+        return u256(this->value & rhs.value);
     }
 
-    inline boost::multiprecision::uint256_t operator&(const Object &rhs) const {
-        return (this->value & ((u256) rhs).value);
+    inline u256 operator&(const Object &rhs) const {
+        return u256(this->value & ((u256) rhs).value);
     }
 
     inline u256 operator<<(const int num) const {

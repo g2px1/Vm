@@ -119,7 +119,10 @@
 				9,
 				10,
 				11,
-				12
+				12,
+				13,
+				14,
+				15
 			]
 		}
 	],
@@ -190,6 +193,21 @@
 		{
 			"backtrace" : 1,
 			"path" : "UVM/DataTypes/collection.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "UVM/DataTypes/Pools/UniqueConstantPool.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "UVM/DataTypes/Pools/SharedConstantPool.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "UVM/DataTypes/PrecompiledFunction.h",
 			"sourceGroupIndex" : 1
 		}
 	],

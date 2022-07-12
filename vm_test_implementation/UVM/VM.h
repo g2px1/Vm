@@ -29,7 +29,7 @@ public:
     uint16_t contract_size;
 private:
     uint8_t* stack = (uint8_t*)malloc(24576);
-    uint8_t* locals = (uint8_t*) malloc(contract_size);
+    uint8_t* locals = (uint8_t*) malloc(16); // local storage. it can store now 16 variables
     uint8_t program_counter;
     uint8_t stack_pointer = -1;
     void *frame_pointer;
