@@ -282,6 +282,10 @@ public:
     inline explicit operator Object *() const {
         return new Object(this->value.str());
     }
+
+    inline virtual std::string toString() override {
+        return this->value.str();
+    }
 };
 
 #endif //VM_TEST_IMPLEMENTATION_U256_H

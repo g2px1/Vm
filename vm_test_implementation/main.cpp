@@ -6,22 +6,22 @@
 #include "boost/json/value_from.hpp"
 #include "boost/unordered_map.hpp"
 #include "string"
+#include "UVM/DataTypes/Object.h"
+#include "UVM/DataTypes/u128.h"
+#include "UVM/DataTypes/boolean.h"
 
 int main() {
-    std::vector< int > v1{ 1, 2, 3, 4 };
-    std::map<std::string, std::vector<int>> map = {{"test", v1}};
-    boost::unordered_map<std::string, std::vector<int>> unorderedMap = {{"test1", v1}};
-// Convert the vector to a JSON array
-    boost::json::value jv = boost::json::value_from( unorderedMap );
-    boost::unordered_map<std::string, std::vector<int>> unorderedMap1 = boost::json::value_to<boost::unordered_map<std::string, std::vector<int>>>(jv);
-//            value_to<boost::unordered_map<std::string, std::vector<int>>>();
-    boost::json::value val1 = boost::json::value_from(unorderedMap1).at("test1");
+    Object object = Object();
+    object.object = "testes";
+    u128 u1 = u128(111);
+    boolean boolean1 = boolean("true");
+    std::vector<Object> vector;
+    vector.emplace_back(object);
+    vector.emplace_back(u1);
+    vector.emplace_back(boolean1);
 
-    std::vector<int> vector(boost::json::value_to<std::vector<int>>(val1).begin(), boost::json::value_to<std::vector<int>>(val1).end());
-//            (val1.at("test1").as_array().begin(), val1.at("test1").as_array().end());
+    boost::json::value jv = boost::json::value_from(vector);
 
-    std::string str = boost::json::serialize(jv);
-
-    std::cout << jv << std::endl << str; // << str
+    std::cout << jv;
     return 0;
 }

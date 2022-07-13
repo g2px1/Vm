@@ -40,7 +40,6 @@ public:
     inline std::string serialize(){
         boost::json::object obj = boost::json::value_from(programPool).as_object();
         obj["values"] = boost::json::value_from(this->programStack).as_object();
-        obj["functions"] = boost::json::value_from(this->programPool).as_object();
         return boost::json::serialize(obj);
     }
 

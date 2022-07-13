@@ -281,5 +281,9 @@ public:
     inline explicit operator Object *() const {
         return new Object(std::to_string(this->value));
     }
+
+    inline virtual std::string toString() override {
+        return std::to_string(this->value);
+    }
 };
 #endif //VM_TEST_IMPLEMENTATION_U64_H
