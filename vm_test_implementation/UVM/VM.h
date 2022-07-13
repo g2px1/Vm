@@ -7,7 +7,7 @@
 #include "stack"
 #include "iostream"
 #include <cstdlib>
-//#include "DataTypes/Object.h"
+#include "DataTypes/Object.h"
 //#include "DataTypes/u256.h"
 //#include "DataTypes/u128.h"
 //#include "DataTypes/u64.h"
@@ -23,7 +23,10 @@
 
 class VM {
 public:
-    VM(uint16_t contractSize);
+    inline explicit VM(uint16_t contractSize) : contract_size(contractSize) {
+        if (contractSize > 25536) throw std::overflow_error("size of contract should be lower then 25536 bytes");
+        this->contract_size = contractSize;
+    }
 
 //    static void run(std::unique_ptr<VM> vm);
     uint16_t contract_size;

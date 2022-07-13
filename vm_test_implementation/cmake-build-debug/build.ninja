@@ -79,13 +79,6 @@ build CMakeFiles/vm_test_implementation.dir/main.cpp.o: CXX_COMPILER__vm_test_im
   OBJECT_DIR = CMakeFiles/vm_test_implementation.dir
   OBJECT_FILE_DIR = CMakeFiles/vm_test_implementation.dir
 
-build CMakeFiles/vm_test_implementation.dir/UVM/VM.cpp.o: CXX_COMPILER__vm_test_implementation_Debug /Users/kirillzhukov/CLionProjects/vm_test_implementation/UVM/VM.cpp || cmake_object_order_depends_target_vm_test_implementation
-  DEP_FILE = CMakeFiles/vm_test_implementation.dir/UVM/VM.cpp.o.d
-  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk -mmacosx-version-min=12.0 -std=gnu++17
-  INCLUDES = -isystem /opt/homebrew/include
-  OBJECT_DIR = CMakeFiles/vm_test_implementation.dir
-  OBJECT_FILE_DIR = CMakeFiles/vm_test_implementation.dir/UVM
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target vm_test_implementation
@@ -94,7 +87,7 @@ build CMakeFiles/vm_test_implementation.dir/UVM/VM.cpp.o: CXX_COMPILER__vm_test_
 #############################################
 # Link the executable vm_test_implementation
 
-build vm_test_implementation: CXX_EXECUTABLE_LINKER__vm_test_implementation_Debug CMakeFiles/vm_test_implementation.dir/main.cpp.o CMakeFiles/vm_test_implementation.dir/UVM/VM.cpp.o
+build vm_test_implementation: CXX_EXECUTABLE_LINKER__vm_test_implementation_Debug CMakeFiles/vm_test_implementation.dir/main.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk -mmacosx-version-min=12.0
   OBJECT_DIR = CMakeFiles/vm_test_implementation.dir
   POST_BUILD = :

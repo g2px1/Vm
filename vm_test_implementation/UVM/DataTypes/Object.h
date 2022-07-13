@@ -1,7 +1,7 @@
-////
-//// Created by Kirill Zhukov on 03.07.2022.
-////
 //
+// Created by Kirill Zhukov on 03.07.2022.
+//
+
 #ifndef VM_TEST_IMPLEMENTATION_OBJECT_H
 #define VM_TEST_IMPLEMENTATION_OBJECT_H
 #include "iostream"
