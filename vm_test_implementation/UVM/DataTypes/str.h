@@ -7,6 +7,8 @@
 
 #include <utility>
 #include "Object.h"
+#define TYPE 8
+
 
 class str : public Object {
 public:
@@ -14,6 +16,7 @@ public:
 
     inline explicit str(std::string value) { //: Object(std::move(value))
         this->value = std::move(value);
+        this->type = type;
     }
 
     std::string value{};
@@ -57,8 +60,7 @@ public:
     }
 
     inline friend std::ostream &operator<<(std::ostream &os, const str &str1) {
-        os << str1.value;
-        return os;
+        return os << R"({"value":)" << str1.value << R"(,"type":)" << TYPE << "}";
     }
 
     // implicit conversion

@@ -10,15 +10,15 @@ class u64 : public Object {
 public:
     inline u64() = default;
 
-    inline u64(u64 &u) : Object(u) {
+    inline u64(u64 &u) : Object(u, 2) {
         *this = u;
     }
 
-    inline explicit u64(int u) : Object(std::to_string(u)) {
+    inline explicit u64(int u) : Object(std::to_string(u), 2) {
         this->value = u;
     }
 
-    inline explicit u64(uint64_t &u) : Object(std::to_string(u)) {
+    inline explicit u64(uint64_t &u) : Object(std::to_string(u), 2) {
         this->value = u;
     }
 

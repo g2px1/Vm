@@ -7,20 +7,22 @@
 
 #include "Object.h"
 #include "boost/multiprecision/cpp_int.hpp"
+#define TYPE 4
+
 
 class u256 : public Object {
 public:
     inline u256() = default;
 
-    inline u256(u256 &u) : Object(u) {
+    inline u256(u256 &u) : Object(u, TYPE) {
         *this = u;
     }
 
-    inline explicit u256(int u) : Object(std::to_string(u)) {
+    inline explicit u256(int u) : Object(std::to_string(u), TYPE) {
         this->value = u;
     }
 
-    inline explicit u256(uint64_t &u) : Object(std::to_string(u)) {
+    inline explicit u256(uint64_t &u) : Object(std::to_string(u), TYPE) {
         this->value = u;
     }
 
@@ -269,8 +271,7 @@ public:
     }
 
     inline friend std::ostream &operator<<(std::ostream &os, const u256 &u256) {
-        os << u256.value;
-        return os;
+        return os << R"({"value":)" << u256.value << R"(,"type":)" << TYPE << "}";
     }
 
     // implicit conversion

@@ -6,16 +6,17 @@
 #define VM_TEST_IMPLEMENTATION_D64_H
 #include "Object.h"
 #include "cmath"
+#define TYPE 5
 
 class d64 : public Object {
 public:
     inline d64() = default;
 
-    inline d64(d64 &u) : Object(u) {
+    inline d64(d64 &u) : Object(u, TYPE) {
         *this = u;
     }
 
-    inline explicit d64(double u) : Object(std::to_string(u)) {
+    inline explicit d64(double u) : Object(std::to_string(u), TYPE) {
         this->value = u;
     }
 
@@ -136,8 +137,7 @@ public:
     }
 
     inline friend std::ostream &operator<<(std::ostream &os, const d64 &d64) {
-        os << d64.value;
-        return os;
+        return os << R"({"value":)" << d64.value << R"(,"type":)" << TYPE << "}";
     }
 
     // implicit conversion

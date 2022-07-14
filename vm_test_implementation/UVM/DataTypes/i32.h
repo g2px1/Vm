@@ -5,16 +5,18 @@
 #ifndef VM_TEST_IMPLEMENTATION_I32_H
 #define VM_TEST_IMPLEMENTATION_I32_H
 #include "Object.h"
+#define TYPE 1
+
 
 class i32 : public Object {
 public:
     inline i32() = default;
 
-    inline i32(i32 &u) : Object(u) {
+    inline i32(i32 &u) : Object(u, TYPE) {
         *this = u;
     }
 
-    inline explicit i32(int u) : Object(std::to_string(u)) {
+    inline explicit i32(int u) : Object(std::to_string(u), TYPE) {
         this->value = u;
     }
 
@@ -260,8 +262,7 @@ public:
     }
 
     inline friend std::ostream &operator<<(std::ostream &os, const i32 &i32) {
-        os << i32.value;
-        return os;
+        return os << R"({"value":)" << i32.value << R"(,"type":)" << TYPE << "}";
     }
 
     // implicit conversion

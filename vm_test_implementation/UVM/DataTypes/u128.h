@@ -9,20 +9,23 @@
 #include <ostream>
 #include "Object.h"
 #include "boost/multiprecision/cpp_int.hpp"
+#define TYPE 3
+
 
 class u128 : public Object {
 public:
     inline u128() = default;
 
-    inline u128(u128 &u) : Object(u) {
+    inline u128(u128 &u) : Object(u, TYPE) {
         *this = u;
     }
 
-    inline explicit u128(int u) : Object(std::to_string(u)) {
+    inline explicit u128(int u) : Object(std::to_string(u), TYPE) {
         this->value = u;
+        this->type = TYPE;
     }
 
-    inline explicit u128(uint64_t &u) : Object(std::to_string(u)) {
+    inline explicit u128(uint64_t &u) : Object(std::to_string(u), TYPE) {
         this->value = u;
     }
 
@@ -30,7 +33,7 @@ public:
         this->value = std::move(u);
     }
 
-    inline explicit u128(const std::string& str) {
+    inline explicit u128(const std::string& str) : Object(str, TYPE) {
         this->value = boost::multiprecision::uint128_t(str);
     }
 
@@ -271,8 +274,7 @@ public:
     }
 
     inline friend std::ostream &operator<<(std::ostream &os, const u128 &u128) {
-        os << u128.value;
-        return os;
+        return os << R"({"value":)" << u128.value << R"(,"type":)" << TYPE << "}";
     }
 
     // implicit conversion

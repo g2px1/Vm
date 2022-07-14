@@ -9,23 +9,25 @@
 #include <utility>
 #include "boost/json/object.hpp"
 
+
 class Object {
 public:
     inline Object() = default;
 
-    inline explicit Object(std::string value) {
+    inline explicit Object(std::string value, unsigned char type = 0) {
+        value.erase(std::remove(value.begin(), value.end(), '\"'), value.end());
         this->object = std::move(value);
+        this->type = type;
     }
 
-    inline explicit Object(std::string &value) {
+    inline explicit Object(std::string &value, unsigned char type = 0) {
+        value.erase(std::remove(value.begin(), value.end(), '\"'), value.end());
         this->object = value;
-    }
-
-    inline explicit Object(int b) {
-        this->object = std::to_string(b);
+        this->type = type;
     }
 
     std::string object;
+    unsigned char type;
 
     [[nodiscard]] virtual inline std::optional<std::string> get(std::string key) const {
         boost::json::object obj = boost::json::parse(this->object).as_object();
@@ -56,9 +58,9 @@ public:
     }
 
     inline friend std::ostream &operator<<(std::ostream &os, const Object &obj) {
-        os << obj.object;
-        return os;
+        return os << R"({"value":)" << R"(")" << obj.object << R"(")" << R"(,"type":)" << 0 << "}";
     }
+
 //
     // implicit conversion
     template<class T>

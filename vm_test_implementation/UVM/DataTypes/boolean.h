@@ -6,26 +6,26 @@
 #define VM_TEST_IMPLEMENTATION_BOOLEAN_H
 #include "Object.h"
 #include <boost/lexical_cast.hpp>
+#define TYPE 6
 
 
 class boolean : public Object{
 public:
     inline boolean() = default;
 
-    inline explicit boolean(bool &value) : Object((value) ? "true" : "false"){
+    inline explicit boolean(bool &value) : Object((value) ? "true" : "false", TYPE){
         this->value = value;
     }
 
-    inline explicit boolean(const std::string &str){ // : Object(std::move(str))
+    inline explicit boolean(const std::string &str) : Object(str, TYPE){ // : Object(std::move(str))
         try {
             this->value = boost::lexical_cast<bool>(str);
-            std::cout << "ok" << std::endl;
         } catch (boost::bad_lexical_cast::bad_lexical_cast::bad_cast &) {
             this->value = (str == "true");
         }
     }
 
-    inline explicit boolean(int value) : Object((value) ? "true" : "false"){
+    inline explicit boolean(int value) : Object((value) ? "true" : "false", 6){
         this->value = value;
     }
 
@@ -40,8 +40,7 @@ public:
     }
 
     inline friend std::ostream &operator<<(std::ostream &os, const boolean &boolean1) {
-        os << boolean1.value;
-        return os;
+        return os << R"({"value":)" << boolean1.value << R"(,"type":)" << TYPE << "}";
     }
 
     // implicit conversion
