@@ -23,8 +23,22 @@
 
 
 int main() {
-//    Object object = Object();
-//    object.object = "test";
+    Object object = Object();
+    object.object = "test";
+    Object object1 = Object();
+    object1.object = "test2";
+
+    Object *stack = (Object*)malloc(24576);
+    *stack = object;
+    std::cout << stack << *stack << std::endl;
+
+    *(++stack) = object1;
+    std::cout << stack << *stack << std::endl;
+
+    object = object1;
+
+    std::cout << object;
+
 //    u128 u1 = u128(111);
 //    boolean boolean1 = boolean("true");
 //    std::vector<Object> vector;
@@ -34,27 +48,33 @@ int main() {
 //    collection coll = collection(vector);
 //    vector.emplace_back(coll);
 //
-//    std::cout << sizeof(UniqueConstantPool);
-
-
-    void *code[] = {&&test1, &&test2, &&test3, &&end};
-    void **pc = code;
-    goto **(pc++);
-
-    test1: {
-        std::cout << "test1" << std::endl;
-        goto **(pc++);
-    };
-
-    test2: {
-        std::cout << "test2" << std::endl;
-        goto **(pc++);
-    };
-
-    test3: {
-        std::cout << "test3" << std::endl;
-        goto **(pc++);
-    };
+//    auto it = vector.begin();
+//
+//    std::cout << *(++(++it)) << std::endl;
+//
+//    std::cout << *it << std::endl;
+//
+//
+//
+//    void *code[] = {&&test1, &&test2, &&test3, &&end};
+//    void **pc = code;
+////    goto **(pc++);
+//    goto *code[2];
+//
+//    test1: {
+//        std::cout << "test1" << std::endl;
+//        goto **(pc++);
+//    };
+//
+//    test2: {
+//        std::cout << "test2" << std::endl;
+//        goto **(pc++);
+//    };
+//
+//    test3: {
+//        std::cout << "test3" << std::endl;
+//        goto **(pc++);
+//    };
 
     end: {return 0;};
 }

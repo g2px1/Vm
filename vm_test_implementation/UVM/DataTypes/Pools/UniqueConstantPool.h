@@ -41,6 +41,14 @@ public:
         return boost::json::value_to<std::vector<uint16_t>>(this->programPool.as_array()[std::get<1>(exist)].at(name));
     }
 
+    inline Object loadReference(int index) {
+        return *&dataValues[index];
+    }
+
+    inline void updateReferenceValue(int index, Object &value) {
+        this->dataValues[index] = value;
+    }
+
     inline std::string serialize(){
         boost::json::object obj;
         obj.emplace("functions", programPool);

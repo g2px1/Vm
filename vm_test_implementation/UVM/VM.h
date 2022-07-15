@@ -32,7 +32,22 @@ public:
         this->uniqueConstantPool = UniqueConstantPool(code);
     }
 
-//    static void run(std::unique_ptr<VM> vm);
+    static void VMRun(VM *vm, std::vector<uint16_t> &stack_val) {
+        auto it = stack_val.begin();
+        void *ddt[] = {&&ldc, &&stop}; // Direct Threading Table
+        void **pc = ddt;
+        goto **(pc++);
+
+        ldc:{
+            uint16_t valueIndex = stack_val[*(++it)];
+            vm->uniqueConstantPool.loadReference(valueIndex);
+            goto *ddt[*(it++)];
+        };
+
+        stop:{
+            return;
+        };
+    }
 
     uint16_t contract_size;
     UniqueConstantPool uniqueConstantPool;
