@@ -29,17 +29,18 @@ public:
     inline explicit VM(uint16_t contractSize, std::string &code) : contract_size(contractSize) {
         if (contractSize > 25536) throw std::overflow_error("size of contract should be lower then 25536 bytes");
         this->contract_size = contractSize;
-        this->uniqueConstantPool.deserialize(code);
+        this->uniqueConstantPool = UniqueConstantPool(code);
     }
 
 //    static void run(std::unique_ptr<VM> vm);
+
     uint16_t contract_size;
     UniqueConstantPool uniqueConstantPool;
 private:
     Object* stack = (Object*)malloc(24576);
-    Object* locals = (Object*) malloc(4); // local storage. it can store now 16 variables
-    uint8_t program_counter;
-    uint8_t stack_pointer = -1;
+    Object* locals = (Object*) malloc(sizeof(Object) * 4); // local storage. it can store now 16 variables
+    uint16_t ip; // instruction pointer
+    uint16_t stack_pointer = -1;
     void *frame_pointer;
 };
 

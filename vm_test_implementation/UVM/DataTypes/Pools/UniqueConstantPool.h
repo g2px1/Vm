@@ -29,8 +29,9 @@ public:
     UniqueConstantPool() = default;
 
     inline explicit UniqueConstantPool(const std::string& str) {
-        std::cout << boost::json::parse(str).at("functions") << std::endl;
-        this->programPool = boost::json::parse(str).at("functions");
+        boost::json::value parsed = boost::json::parse(str);
+        this->programPool = parsed.at("functions");
+        this->deserialize(parsed.at("values"));
     }
 
     inline std::optional<std::vector<uint16_t>> loadFunction(std::string &name) {
@@ -45,43 +46,6 @@ public:
         obj.emplace("functions", programPool);
         obj.emplace("values", boost::json::parse(this->serializeValues()));
         return boost::json::serialize(obj);
-    }
-
-    inline void deserialize(std::string &unique_values) {
-        boost::json::value jv = boost::json::parse(unique_values);
-        for (int i = 0; i < jv.as_array().size(); i++) {
-            switch (jv.as_array()[i].as_object()["type"].as_int64()) {
-                case 0:
-                    this->dataValues.emplace_back(Object(boost::json::serialize(jv.as_array()[i].at("value"))));
-                    break;
-                case 1:
-                    this->dataValues.emplace_back(i32(boost::json::serialize(jv.as_array()[i].at("value"))));
-                    break;
-                case 2:
-                    this->dataValues.emplace_back(u64(boost::json::serialize(jv.as_array()[i].at("value"))));
-                    break;
-                case 3:
-                    this->dataValues.emplace_back(u128(boost::json::serialize(jv.as_array()[i].at("value"))));
-                    break;
-                case 4:
-                    this->dataValues.emplace_back(u256(boost::json::serialize(jv.as_array()[i].at("value"))));
-                    break;
-                case 5:
-                    this->dataValues.emplace_back(d64(boost::json::serialize(jv.as_array()[i].at("value"))));
-                    break;
-                case 6:
-                    this->dataValues.emplace_back(boolean(boost::json::serialize(jv.as_array()[i].at("value"))));
-                    break;
-                case 7:
-                    this->dataValues.emplace_back(collection(boost::json::serialize(jv.as_array()[i].at("value"))));
-                    break;
-                case 8:
-                    this->dataValues.emplace_back(str(boost::json::serialize(jv.as_array()[i].as_object()["value"])));
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 
 private:
@@ -124,6 +88,42 @@ private:
             (i != dataValues.size() - 1) ? stringstream << ',' : stringstream << ']';
         }
         return stringstream.str();
+    }
+
+    inline void deserialize(boost::json::value jv) {
+        for (int i = 0; i < jv.as_array().size(); i++) {
+            switch (jv.as_array()[i].as_object()["type"].as_int64()) {
+                case 0:
+                    this->dataValues.emplace_back(Object(boost::json::serialize(jv.as_array()[i].at("value"))));
+                    break;
+                case 1:
+                    this->dataValues.emplace_back(i32(boost::json::serialize(jv.as_array()[i].at("value"))));
+                    break;
+                case 2:
+                    this->dataValues.emplace_back(u64(boost::json::serialize(jv.as_array()[i].at("value"))));
+                    break;
+                case 3:
+                    this->dataValues.emplace_back(u128(boost::json::serialize(jv.as_array()[i].at("value"))));
+                    break;
+                case 4:
+                    this->dataValues.emplace_back(u256(boost::json::serialize(jv.as_array()[i].at("value"))));
+                    break;
+                case 5:
+                    this->dataValues.emplace_back(d64(boost::json::serialize(jv.as_array()[i].at("value"))));
+                    break;
+                case 6:
+                    this->dataValues.emplace_back(boolean(boost::json::serialize(jv.as_array()[i].at("value"))));
+                    break;
+                case 7:
+                    this->dataValues.emplace_back(collection(boost::json::serialize(jv.as_array()[i].at("value"))));
+                    break;
+                case 8:
+                    this->dataValues.emplace_back(str(boost::json::serialize(jv.as_array()[i].as_object()["value"])));
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     std::tuple<bool, int> function_exist(std::string &name) {
