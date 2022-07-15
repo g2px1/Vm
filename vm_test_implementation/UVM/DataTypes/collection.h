@@ -53,8 +53,12 @@ public:
         return value.pop_back();
     }
 
-    inline bool find(Object &obj) {
-        return std::binary_search(this->value.begin(), this->value.end(), obj);
+    inline int size() const{
+        return this->value.size();
+    }
+
+    inline unsigned long find(int start, int end, Object &key) {
+        return std::binary_search(this->value.begin(), this->value.end(), key);
     }
 
     template<class T>

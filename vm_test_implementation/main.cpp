@@ -1,6 +1,7 @@
 #include <iostream>
 #include "vector"
 #include "map"
+#include "optional"
 #include <boost/json/src.hpp>
 #include <boost/json/value.hpp>
 #include <boost/json/value_to.hpp>
@@ -16,6 +17,7 @@
 #include "UVM/DataTypes/d64.h"
 #include "UVM/DataTypes/str.h"
 #include "UVM/DataTypes/collection.h"
+#include "UVM/DataTypes/Pools/UniqueConstantPool.h"
 
 int main() {
     Object object = Object();
@@ -68,84 +70,24 @@ int main() {
         (i != vector.size() - 1) ? stringstream <<  ',' : stringstream << ']';
     }
 
-    boost::json::value jv = boost::json::parse(stringstream.str());
-    std::cout << jv << std::endl;
-    std::vector<Object> vector1;
-    for(int i = 0; i < jv.as_array().size(); i++) {
-        switch (jv.as_array()[i].as_object()["type"].as_int64()) {
-            case 0:
-                vector1.emplace_back(Object(serialize(jv.as_array()[i].at("value"))));
-                break;
-            case 1:
-                vector1.emplace_back(i32(serialize(jv.as_array()[i].at("value"))));
-                break;
-            case 2:
-                vector1.emplace_back(u64(serialize(jv.as_array()[i].at("value"))));
-                break;
-            case 3:
-                vector1.emplace_back(u128(serialize(jv.as_array()[i].at("value"))));
-                break;
-            case 4:
-                vector1.emplace_back(u256(serialize(jv.as_array()[i].at("value"))));
-                break;
-            case 5:
-                vector1.emplace_back(d64(serialize(jv.as_array()[i].at("value"))));
-                break;
-            case 6:
-                vector1.emplace_back(boolean(serialize(jv.as_array()[i].at("value"))));
-                break;
-            case 7:
-                vector1.emplace_back(collection(boost::json::serialize(jv.as_array()[i].at("value"))));
-                break;
-            case 8:
-                vector1.emplace_back(str(serialize(jv.as_array()[i].as_object()["value"])));
-                break;
-            default:
-                break;
-        }
-        (i != vector.size() - 1) ? stringstream <<  ',' : stringstream << ']';
-    }
+    std::string str = R"({"functions": [{"test": [1,2,3]}, {"test2": [1,2,3]}]})";
+    std::cout << str << std::endl;
+    boost::json::value value = boost::json::parse(str);
 
-    std::stringstream stringstream1;
-    stringstream1 << "[";
-    for(int i = 0; i < vector1.size(); i++) {
-        switch (vector1[i].type) {
-            case 0:
-                stringstream1 << (Object) vector1[i];
-                break;
-            case 1:
-                stringstream1 << (i32) vector1[i];
-                break;
-            case 2:
-                stringstream1 << (u64) vector1[i];
-                break;
-            case 3:
-                stringstream1 << (u128) vector1[i];
-                break;
-            case 4:
-                stringstream1 << (u256) vector1[i];
-                break;
-            case 5:
-                stringstream1 << (d64) vector1[i];
-                break;
-            case 6:
-                stringstream1 << (boolean) vector1[i];
-                break;
-            case 7:
-                stringstream1 << (collection) vector1[i];
-                break;
-            case 8:
-                stringstream1 << (str) vector1[i];
-                break;
-            default:
-                break;
-        }
-        (i != vector.size() - 1) ? stringstream1 <<  ',' : stringstream1 << ']';
-    }
+    UniqueConstantPool uniqueConstantPool = UniqueConstantPool(str);
 
-    std::cout << stringstream1.str() << std::endl;
+    std::string values = stringstream.str();
+    uniqueConstantPool.deserialize(values);
 
+    std::string functionName = "test";
+    std::optional<std::vector<uint16_t>> vector2 = uniqueConstantPool.loadFunction(functionName);
 
-//    std::cout << stringstream.str() << std::endl;
+    if(vector2.has_value())
+        std::cout << vector2.value()[2] << std::endl;
+    else
+        std::cout << "no value" << std::endl;
+
+    std::cout << uniqueConstantPool.serialize() << std::endl;
+
     return 0;
 }

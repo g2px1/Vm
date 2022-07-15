@@ -4,8 +4,9 @@
 
 #ifndef VM_TEST_IMPLEMENTATION_OPCODES_H
 #define VM_TEST_IMPLEMENTATION_OPCODES_H
+#include "iostream"
 
-enum OPCODES : unsigned char {
+enum OPCODES : uint16_t{
     stop = 0x00,
     loop = 0x01,
     swap = 0x02,

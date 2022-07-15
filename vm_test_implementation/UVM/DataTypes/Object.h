@@ -27,7 +27,7 @@ public:
     }
 
     std::string object;
-    unsigned char type;
+    uint16_t type;
 
     [[nodiscard]] virtual inline std::optional<std::string> get(std::string key) const {
         boost::json::object obj = boost::json::parse(this->object).as_object();
@@ -55,6 +55,18 @@ public:
 
     inline bool operator>(const Object &rhs) const {
         return rhs < *this;
+    }
+
+    inline bool operator<=(const Object &rhs) const {
+        return this->object <= rhs.object;
+    }
+
+    inline bool operator>=(const Object &rhs) const {
+        return rhs <= *this;
+    }
+
+    inline bool operator==(const Object &rhs) const {
+        return this->object == rhs.object;
     }
 
     inline friend std::ostream &operator<<(std::ostream &os, const Object &obj) {

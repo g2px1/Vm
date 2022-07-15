@@ -22,7 +22,7 @@ public:
 
     inline explicit u128(int u) : Object(std::to_string(u), TYPE) {
         this->value = u;
-        this->type = TYPE;
+//        this->type = TYPE;
     }
 
     inline explicit u128(uint64_t &u) : Object(std::to_string(u), TYPE) {

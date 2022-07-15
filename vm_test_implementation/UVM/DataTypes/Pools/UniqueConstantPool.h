@@ -12,6 +12,7 @@
 #include "boost/json/value_from.hpp"
 #include "boost/json/value_to.hpp"
 #include <boost/json/src.hpp>
+#include "optional"
 #include "vector"
 #include "../Object.h"
 #include "../u128.h"
@@ -21,24 +22,28 @@
 #include "../u256.h"
 #include "../d64.h"
 #include "../str.h"
+#include "../collection.h"
 
 class UniqueConstantPool {
 public:
-    inline explicit UniqueConstantPool(std::string &str) {
-        this->programPool = boost::json::value_to<boost::unordered_map<std::string, std::vector<unsigned char>>>(boost::json::parse(str));
+    UniqueConstantPool() = default;
+
+    inline explicit UniqueConstantPool(const std::string& str) {
+        std::cout << boost::json::parse(str).at("functions") << std::endl;
+        this->programPool = boost::json::parse(str).at("functions");
     }
 
-    inline std::vector<unsigned char> loadFunction(std::string &name) {
-        return this->programPool[name];
-    }
-
-    inline void pushFunction(std::string &name, std::vector<unsigned char> &vector) {
-        this->programPool[name] = vector;
+    inline std::optional<std::vector<uint16_t>> loadFunction(std::string &name) {
+        std::tuple exist = this->function_exist(name);
+        if (!std::get<0>(exist))
+            return std::nullopt;
+        return boost::json::value_to<std::vector<uint16_t>>(this->programPool.as_array()[std::get<1>(exist)].at(name));
     }
 
     inline std::string serialize(){
-        boost::json::object obj = boost::json::value_from(programPool).as_object();
-        obj["values"] = boost::json::value_from(this->serializeValues()).as_object();
+        boost::json::object obj;
+        obj.emplace("functions", programPool);
+        obj.emplace("values", boost::json::parse(this->serializeValues()));
         return boost::json::serialize(obj);
     }
 
@@ -67,9 +72,9 @@ public:
                 case 6:
                     this->dataValues.emplace_back(boolean(boost::json::serialize(jv.as_array()[i].at("value"))));
                     break;
-//            case 7:
-//                stringstream << (collection) vector[i];
-//                break;
+                case 7:
+                    this->dataValues.emplace_back(collection(boost::json::serialize(jv.as_array()[i].at("value"))));
+                    break;
                 case 8:
                     this->dataValues.emplace_back(str(boost::json::serialize(jv.as_array()[i].as_object()["value"])));
                     break;
@@ -80,11 +85,12 @@ public:
     }
 
 private:
-    boost::unordered_map<std::string, std::vector<unsigned char>> programPool;
+    boost::json::value programPool;
     std::vector<Object> dataValues;
 
     inline std::string serializeValues() {
         std::stringstream stringstream;
+        stringstream << "[";
         for(int i = 0; i < dataValues.size(); i++) {
             switch (dataValues[i].type) {
                 case 1:
@@ -105,9 +111,9 @@ private:
                 case 6:
                     stringstream << (boolean) dataValues[i];
                     break;
-//            case 7:
-//                stringstream << (collection) vector[i];
-//                break;
+                case 7:
+                    stringstream << (collection) dataValues[i];
+                    break;
                 case 8:
                     stringstream << (str) dataValues[i];
                     break;
@@ -118,6 +124,13 @@ private:
             (i != dataValues.size() - 1) ? stringstream << ',' : stringstream << ']';
         }
         return stringstream.str();
+    }
+
+    std::tuple<bool, int> function_exist(std::string &name) {
+        for(int i = 0; i < this->programPool.as_array().size(); i++)
+            if (this->programPool.as_array()[i].as_object().contains(name))
+                return std::make_tuple(true, i);
+        return std::make_tuple(true, -1);
     }
 };
 
