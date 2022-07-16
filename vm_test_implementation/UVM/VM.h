@@ -17,10 +17,10 @@
 #include "DataTypes/str.h"
 #include "DataTypes/collection.h"
 #include "DataTypes/Pools/UniqueConstantPool.h"
+#include "boost/json/array.hpp"
+#include "exception"
 
-#define PUSH(vm, v) vm->stack[++vm->sp] = v // push object on top of the stack
-#define POP(vm)     vm->stack[vm->sp--]     // pop object from top of the stack
-#define NCODE(vm)   vm->code[vm->pc++]      // get next bytecode
+typedef std::array<Object, 4> Registers;
 
 class VM {
 public:
@@ -32,31 +32,122 @@ public:
         this->uniqueConstantPool = UniqueConstantPool(code);
     }
 
-    static void VMRun(VM *vm, std::vector<uint16_t> &stack_val) {
-        auto it = stack_val.begin();
-        void *ddt[] = {&&ldc, &&stop}; // Direct Threading Table
+    static void VMRun(VM *vm, boost::json::array &stack_val) {
+        boost::json::array::iterator it = stack_val.begin();
+        void *ddt[] = {
+                &&ldc,
+                &&stop,
+                &&ostore_0,
+                &&ostore_1,
+                &&ostore_2,
+                &&ostore_3,
+        }; // Direct Threading Table
         void **pc = ddt;
         goto **(pc++);
 
-        ldc:{
-            uint16_t valueIndex = stack_val[*(++it)];
-            vm->uniqueConstantPool.loadReference(valueIndex);
-            goto *ddt[*(it++)];
+        ldc: {
+            vm->stack.push(Object(vm->uniqueConstantPool.loadReference(boost::json::value_to<int>(*(++it)))));
+            goto *ddt[(++it)->as_int64()];
         };
 
-        stop:{
+        ostore_0: {
+            if(std::count_if(vm->locals.begin(), vm->locals.end(), null_object) == 0)
+                throw std::logic_error("Registers are full");
+            vm->locals[0] = vm->stack.top();
+            vm->stack.pop();
+        };
+
+        ostore_1: {
+            if(std::count_if(vm->locals.begin(), vm->locals.end(), null_object) == 0)
+                throw std::logic_error("Registers are full");
+            vm->locals[1] = vm->stack.top();
+            vm->stack.pop();
+        };
+
+        ostore_2: {
+            if(std::count_if(vm->locals.begin(), vm->locals.end(), null_object) == 0)
+                throw std::logic_error("Registers are full");
+            vm->locals[2] = vm->stack.top();
+            vm->stack.pop();
+        };
+
+        ostore_3: {
+            if(std::count_if(vm->locals.begin(), vm->locals.end(), null_object) == 0)
+                throw std::logic_error("Registers are full");
+            vm->locals[3] = vm->stack.top();
+            vm->stack.pop();
+        };
+
+//        u64store_0:{
+//            if (std::count_if(vm->locals.begin(), vm->locals.end(), null_object) == 0)
+//                throw std::logic_error("Registers are full");
+//            vm->locals[0] = (i32) vm->stack.top();
+//            vm->stack.pop();
+//        };
+//
+//        u64store_1:{
+//            if (std::count_if(vm->locals.begin(), vm->locals.end(), null_object) == 0)
+//                throw std::logic_error("Registers are full");
+//            vm->locals[1] = (i32) vm->stack.top();
+//            vm->stack.pop();
+//        };
+//
+//        u64store_2:{
+//            if (std::count_if(vm->locals.begin(), vm->locals.end(), null_object) == 0)
+//                throw std::logic_error("Registers are full");
+//            vm->locals[2] = (i32) vm->stack.top();
+//            vm->stack.pop();
+//        };
+//
+//        u64store_3:{
+//            if (std::count_if(vm->locals.begin(), vm->locals.end(), null_object) == 0)
+//                throw std::logic_error("Registers are full");
+//            vm->locals[3] = (i32) vm->stack.top();
+//            vm->stack.pop();
+//        };
+//
+//        u128store_0:{
+//            if (std::count_if(vm->locals.begin(), vm->locals.end(), null_object) == 0)
+//                throw std::logic_error("Registers are full");
+//            vm->locals[0] = (i32) vm->stack.top();
+//            vm->stack.pop();
+//        };
+//
+//        u128store_1:{
+//            if (std::count_if(vm->locals.begin(), vm->locals.end(), null_object) == 0)
+//                throw std::logic_error("Registers are full");
+//            vm->locals[1] = (i32) vm->stack.top();
+//            vm->stack.pop();
+//        };
+//
+//        u128store_2:{
+//            if (std::count_if(vm->locals.begin(), vm->locals.end(), null_object) == 0)
+//                throw std::logic_error("Registers are full");
+//            vm->locals[2] = (i32) vm->stack.top();
+//            vm->stack.pop();
+//        };
+//
+//        u128store_3:{
+//            if (std::count_if(vm->locals.begin(), vm->locals.end(), null_object) == 0)
+//                throw std::logic_error("Registers are full");
+//            vm->locals[3] = (i32) vm->stack.top();
+//            vm->stack.pop();
+//        };
+
+        stop: {
             return;
         };
+    }
+
+    static bool null_object(Object &obj) {
+        return (obj.object == "NULL_OBJECT");
     }
 
     uint16_t contract_size;
     UniqueConstantPool uniqueConstantPool;
 private:
-    Object* stack = (Object*)malloc(24576);
-    Object* locals = (Object*) malloc(sizeof(Object) * 4); // local storage. it can store now 16 variables
-    uint16_t ip; // instruction pointer
-    uint16_t stack_pointer = -1;
-    void *frame_pointer;
+    std::stack<Object> stack;
+    Registers locals{}; // local storage
 };
 
 

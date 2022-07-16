@@ -6,12 +6,12 @@
 #define VM_TEST_IMPLEMENTATION_SHAREDCONSTANTPOOL_H
 #include "tuple"
 #include "vector"
-#include "boost/unordered_map.hpp"
+#include "boost/multiprecision/cpp_int.hpp"
 #include "../Object.h"
 
 class SharedConstantPool {
 public:
-    std::vector<void*> references;
+    boost::multiprecision::uint256_t MAX_VALUE = boost::multiprecision::uint256_t(1.1579209e+77);
 };
 
 #endif //VM_TEST_IMPLEMENTATION_SHAREDCONSTANTPOOL_H

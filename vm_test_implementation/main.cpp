@@ -6,7 +6,9 @@
 #include <boost/json/value.hpp>
 #include <boost/json/value_to.hpp>
 #include "boost/json/value_from.hpp"
+#include "boost/json/array.hpp"
 #include "boost/unordered_map.hpp"
+#include "boost/multiprecision/cpp_int.hpp"
 #include "string"
 #include "UVM/DataTypes/Object.h"
 #include "UVM/DataTypes/u128.h"
@@ -18,63 +20,23 @@
 #include "UVM/DataTypes/str.h"
 #include "UVM/DataTypes/collection.h"
 #include "UVM/DataTypes/Pools/UniqueConstantPool.h"
-#include <thread>
-#include <future>
+#include "stack"
+#include "array"
 
+static bool null_object(Object &obj) {
+//    return (obj.object == "NULL_OBJECT");
+    return false;
+}
 
 int main() {
     Object object = Object();
     object.object = "test";
     Object object1 = Object();
     object1.object = "test2";
-
-    Object *stack = (Object*)malloc(24576);
+    auto *stack = new Object[1];
     *stack = object;
     std::cout << stack << *stack << std::endl;
-
-    *(++stack) = object1;
-    std::cout << stack << *stack << std::endl;
-
-    object = object1;
-
-    std::cout << object;
-
-//    u128 u1 = u128(111);
-//    boolean boolean1 = boolean("true");
-//    std::vector<Object> vector;
-//    vector.emplace_back(object);
-//    vector.emplace_back(boolean1);
-//    vector.emplace_back(u1);
-//    collection coll = collection(vector);
-//    vector.emplace_back(coll);
-//
-//    auto it = vector.begin();
-//
-//    std::cout << *(++(++it)) << std::endl;
-//
-//    std::cout << *it << std::endl;
-//
-//
-//
-//    void *code[] = {&&test1, &&test2, &&test3, &&end};
-//    void **pc = code;
-////    goto **(pc++);
-//    goto *code[2];
-//
-//    test1: {
-//        std::cout << "test1" << std::endl;
-//        goto **(pc++);
-//    };
-//
-//    test2: {
-//        std::cout << "test2" << std::endl;
-//        goto **(pc++);
-//    };
-//
-//    test3: {
-//        std::cout << "test3" << std::endl;
-//        goto **(pc++);
-//    };
-
-    end: {return 0;};
+    std::array<Object,4> array{};
+    array[0] = Object("test");
+    std::cout << "found: " << (std::find_if(array.begin(), array.end(), null_object) != array.end() ) << std::endl;
 }
