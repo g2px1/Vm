@@ -121,7 +121,8 @@
 				12,
 				13,
 				14,
-				15
+				15,
+				16
 			]
 		}
 	],
@@ -206,6 +207,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "UVM/VMHandler.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "timeTest/LogDuration.h",
 			"sourceGroupIndex" : 1
 		}
 	],

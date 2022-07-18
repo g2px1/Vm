@@ -31,13 +31,13 @@ public:
 
     inline explicit collection(std::vector<Object> coll) {
         this->value = std::move(coll);
-        this->object = this->serializeValues();
+        *this->object = this->serializeValues();
         this->type = TYPE;
     }
 
     inline explicit collection(const std::string &coll) {
         this->deserialize(coll);
-        this->object = coll;
+        *this->object = coll;
         this->type = TYPE;
     }
 

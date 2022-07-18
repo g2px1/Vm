@@ -22,21 +22,58 @@
 #include "UVM/DataTypes/Pools/UniqueConstantPool.h"
 #include "stack"
 #include "array"
+#include <algorithm>
+#include "timeTest/LogDuration.h"
 
-static bool null_object(Object &obj) {
-//    return (obj.object == "NULL_OBJECT");
-    return false;
+void pop(std::vector<int> &vec) {
+    vec.pop_back();
+}
+
+void print_vector(std::vector<Object> &vector) {
+    for(int i = 0; i < vector.size(); i++)
+        std::cout << "\"" << i << "\" = " << vector[i] << std::endl;
+    std::cout << "---------------------" << std::endl;
+}
+
+void swap(Object *r, Object *s){
+    Object temp = *r;
+    *r = *s;
+    *s = temp;
+}
+
+void swapInt(int *r, int *s){
+    int temp = *r;
+    *r = *s;
+    *s = temp;
 }
 
 int main() {
     Object object = Object();
-    object.object = "test";
+    object.setObject("test");
     Object object1 = Object();
-    object1.object = "test2";
-    auto *stack = new Object[1];
-    *stack = object;
-    std::cout << stack << *stack << std::endl;
-    std::array<Object,4> array{};
-    array[0] = Object("test");
-    std::cout << "found: " << (std::find_if(array.begin(), array.end(), null_object) != array.end() ) << std::endl;
+    object1.setObject("test2");
+    u128 u1 = u128(111);
+
+//    std::vector<Object> vector1 = {object, object1, u1};
+//
+//    print_vector(vector1);
+//    swap(&vector1[0], &vector1[vector1.size()-1]);
+//    print_vector(vector1);
+
+    double a = 1.121;
+    double b = 2.121;
+    std::cout << (a || b);
+
+//    std::cout << vector1[vector1.size()-1] << std::endl;
+//value→!value
+//    std::vector<int> vector(1e7, 0);
+//    {
+//        LogDuration logDuration = LogDuration("test");
+//        for(int i = 0; i < vector.size(); i++)
+//            swapInt(&vector[i], &vector[vector.size()-i]);
+//    }
+
+
+
+    return 0;
 }
