@@ -114,12 +114,12 @@ public:
         return *this;
     }
 
-    inline u64 &operator+=(Object &c2) {
+    inline u64 &operator+=(Object c2) {
         this->value += ((u64) c2).value;
         return *this;
     }
 
-    inline u64 &operator-=(u64 &c2) {
+    inline u64 &operator-=(u64 c2) {
         if (*this < c2) {
             u64 c1 = u64(0);
             return c1;

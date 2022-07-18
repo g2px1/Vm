@@ -115,7 +115,7 @@ public:
         return u128(this->value - ((u128) rhs).value);
     }
 
-    inline u128 &operator+=(u128 &c2) {
+    inline u128 &operator+=(u128 c2) {
         this->value += c2.value;
         return *this;
     }
@@ -125,7 +125,7 @@ public:
         return *this;
     }
 
-    inline u128 &operator-=(u128 &c2) {
+    inline u128 &operator-=(u128 c2) {
         if (*this < c2) {
             u128 c1 = u128(0);
             return c1;

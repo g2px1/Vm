@@ -23,6 +23,7 @@
 #include "stack"
 #include "array"
 #include <algorithm>
+#include <iterator>
 #include "timeTest/LogDuration.h"
 
 void pop(std::vector<int> &vec) {
@@ -60,12 +61,7 @@ int main() {
 //    swap(&vector1[0], &vector1[vector1.size()-1]);
 //    print_vector(vector1);
 
-    double a = 1.121;
-    double b = 2.121;
-    std::cout << (a || b);
-
 //    std::cout << vector1[vector1.size()-1] << std::endl;
-//value→!value
 //    std::vector<int> vector(1e7, 0);
 //    {
 //        LogDuration logDuration = LogDuration("test");
@@ -73,7 +69,20 @@ int main() {
 //            swapInt(&vector[i], &vector[vector.size()-i]);
 //    }
 
+    std::vector<int> vector = {1,2,3,4,5};
+    std::vector<int>::iterator it = vector.end();
 
+    --it;
+    *it = 10;
+
+    std::cout << *it << std::endl;
+
+    i32 i1 = i32(10);
+    i32 i2 = i32(11);
+
+    i2 += i1;
+
+    std::cout << i2;
 
     return 0;
 }

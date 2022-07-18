@@ -115,27 +115,52 @@ The block with 10,000 transactions was counted in 40 minutes with one stream on 
 | 074     | collectionlength | collection      | push array length on top of the stack by getting length of collection which is on top of the stack | collectionlength | collection→collection,length(uint64) | |
 | 075     | dconst_0         | -               | push int value 0.0 onto the stack.                           | dconst_0         | → 0.0                                | |
 | 076     | dconst_1         | -               | push int value 1.0 onto the stack.                           | dconst_1         | → 1.0                                | |
-|         |                  |                 |                                                              |                  |                                      | |
-|         |                  |                 |                                                              |                  |                                      | |
-|         |                  |                 |                                                              |                  |                                      | |
-|         |                  |                 |                                                              |                  |                                      | |
-|         |                  |                 |                                                              |                  |                                      | |
-|         |                  |                 |                                                              |                  |                                      | |
-|         |                  |                 |                                                              |                  |                                      | |
-|         |                  |                 |                                                              |                  | | |
-|         |                 |           |                                                              | | | |
-|         |                 |           |                                                              | | | |
-|         |                 |           |                                                              | | | |
-|         |                 |           |                                                              | | | |
-|         |                 |           |                                                              | | | |
-|         |                 |           |                                                              | | | |
-|         |                 |           |                                                              | | | |
-|         |                 |           |                                                              | | | |
-|         |                 |           |                                                              | | | |
-|         |                 |           |                                                              | | | |
-|         |                 |           |                                                              | | | |
-|         |                 |           |                                                              | | | |
-|         |                 |           |                                                              | | | |
+| 077     | u64add           | num, num        | adding value                                                 |                  | value1,value2→value1+value2          | |
+| 078     | u128add          | num, num        | adding value                                                 |                  | value1,value2→value1+value2          | |
+| 079     | u256add          | num, num        | adding value                                                 |                  | value1,value2→value1+value2          | |
+| 080     | dadd             | num, num        | adding value                                                 |                  | value1,value2→value1+value2          | |
+| 081     | u64sub           | num, num        | substract value                                              |                  | value1,value2→value1-value2          | |
+| 082     | u128sub          | num, num        | substract value                                              |                  | value1,value2→value1-value2          | |
+| 083     | u256sub          | num, num        | substract value                                              |                  | value1,value2→value1-value2          | |
+| 084     | dsub             | num, num        | substract value                                              |                  |value1,value2→value1-value2 | |
+| 085 | u64divide | num, num | devide value | |value1,value2→value1/value2 | |
+| 086 | u64mul | num, num | multiply value | |value1,value2→value1*value2 | |
+| 087 | u64mod | int, int | a % b | |value1,value2→value1%value2 |double |
+| 088 | u64xor | int, int | a ^ b | |value1,value2→value1^value2 |double |
+| 089 | u64inv | num | !a | |value→!value | |
+| 090 | u64lshift | int, int | a << val | |value1,value2→value1<<value2 |double |
+| 091 | u128divide | num, num | devide value | |value1,value2→value1/value2 | |
+| 092 | u128mul | num, num | multiply value | |value1,value2→value1*value2 | |
+| 093 | u128mod | int, int | a % b | |value1,value2→value1%value2 |double |
+| 094 | u128xor | int, int | a ^ b | |value1,value2→value1^value2 |double |
+| 095 | u128inv | num | !a | |value→!value | |
+| 096 | u128lshift | int, int | a << val | |value1,value2→value1<<value2 |double |
+| 097 | u256divide | num, num | devide value | |value1,value2→value1/value2 | |
+| 098 | u256mul | num, num | multiply value | |value1,value2→value1*value2 | |
+| 099 | u256mod | int, int | a % b | |value1,value2→value1%value2 |double |
+| 100 | u256xor | int, int | a ^ b | |value1,value2→value1^value2 |double |
+| 101 | u256inv | num | !a | |value→!value | |
+| 102 | u256lshift | int, int | a << val | |value1,value2→value1<<value2 |double |
+| 101 | dinv | num | !a | |value→!value | |
+| 102 | ddivide | num, num | devide value | |value1,value2→value1/value2 | |
+| 103 | dmul | num, num | multiply value | |value1,value2→value1*value2 | |
+| 104 | u64or | num | a \|\| b | |value1,value2→value1\|\|value2 | |
+| 105 | u64and | int | a & b | |value1,value2→value1&value2 |double |
+| 106 | u128or | num | a \|\| b | |value1,value2→value1\|\|value2 | |
+| 107 | u128and | int | a & b | |value1,value2→value1&value2 |double |
+| 108 | u256or | num | a \|\| b | |value1,value2→value1\|\|value2 | |
+| 109 | u256and | int | a & b | |value1,value2→value1&value2 |double |
+| 110 | dor | num | a \|\| b | |value1,value2→value1\|\|value2 | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
 
 [^1]: values array
 

@@ -112,7 +112,7 @@ public:
         return u256(this->value - ((u256) rhs).value);
     }
 
-    inline u256 &operator+=(u256 &c2) {
+    inline u256 &operator+=(u256 c2) {
         this->value += c2.value;
         return *this;
     }
@@ -122,7 +122,7 @@ public:
         return *this;
     }
 
-    inline u256 &operator-=(u256 &c2) {
+    inline u256 &operator-=(u256 c2) {
         if (*this < c2) {
             u256 c1 = u256(0);
             return c1;

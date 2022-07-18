@@ -103,7 +103,7 @@ public:
         return i32(this->value - ((i32) rhs).value);
     }
 
-    inline i32 &operator+=(i32 &c2) {
+    inline i32 &operator+=(i32 c2) {
         this->value += c2.value;
         return *this;
     }
@@ -113,7 +113,7 @@ public:
         return *this;
     }
 
-    inline i32 &operator-=(i32 &c2) {
+    inline i32 &operator-=(i32 c2) {
         if (*this < c2) {
             i32 c1 = i32(0);
             return c1;
