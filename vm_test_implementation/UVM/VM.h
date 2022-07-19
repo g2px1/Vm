@@ -49,10 +49,8 @@ class VM {
 public:
     inline VM() = default;
 
-    inline explicit VM(uint16_t contractSize, std::string &code) : contract_size(contractSize) {
+    inline explicit VM(uint16_t contractSize, std::string &code) : contract_size(contractSize), uniqueConstantPool(code) {
         if (contractSize > 25536) throw std::overflow_error("size of contract should be lower then 25536 bytes");
-        this->contract_size = contractSize;
-        this->uniqueConstantPool = UniqueConstantPool(code);
     }
 
     inline static void VMRun(VM *vm, boost::json::array &stack_val) {
@@ -435,6 +433,8 @@ public:
             goto *dtt[(++it)->as_int64()];
         };
 
+        // bug is under
+
         imod: {
             vm->ip++;
             (i32)(*(vm->stack.end()-=2)) %= (i32) (vm->stack.back());
@@ -493,7 +493,7 @@ public:
 
         iinv:{
             vm->ip++;
-            !(i32)(*(vm->stack.end()-=2));
+            (*(vm->stack.end()-=2)) = (i32)*(vm->stack.end()-=2);
             goto *dtt[(++it)->as_int64()];
         };
 
@@ -591,66 +591,68 @@ public:
 
         ior:{
             vm->ip++;
-            (*(vm->stack.end()-=2)) = boolean((i32) (*(vm->stack.end()-=2)) || ((i32) (vm->stack.back())).value);
+            (*(vm->stack.end()-=2)) = i32(i32(*(vm->stack.end()-=2)) ||  i32(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u64or:{
             vm->ip++;
-            (*(vm->stack.end()-=2)) = boolean((u64) (*(vm->stack.end()-=2)) || ((u64) (vm->stack.back())).value);
+            (*(vm->stack.end()-=2)) = u64(u64(*(vm->stack.end()-=2)) ||  u64(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u128or:{
             vm->ip++;
-            (*(vm->stack.end()-=2)) = boolean((u128) (*(vm->stack.end()-=2)) || ((u128) (vm->stack.back())).value);
+            (*(vm->stack.end()-=2)) = u128(u128(*(vm->stack.end()-=2)) ||  u128(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u256or:{
             vm->ip++;
-            (*(vm->stack.end()-=2)) = boolean((u256) (*(vm->stack.end()-=2)) || ((u256) (vm->stack.back())).value);
+            (*(vm->stack.end()-=2)) = u256(u256(*(vm->stack.end()-=2)) ||  u256(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         dor:{
             vm->ip++;
-            (*(vm->stack.end()-=2)) = boolean((d64) (*(vm->stack.end()-=2)) || ((d64) (vm->stack.back())).value);
+            (*(vm->stack.end()-=2)) = d64(d64(*(vm->stack.end()-=2)) ||  d64(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         iand:{
             vm->ip++;
-            (*(vm->stack.end()-=2)) = boolean((i32) (*(vm->stack.end()-=2)) && ((i32) (vm->stack.back())).value);
+            (*(vm->stack.end()-=2)) = i32(i32(*(vm->stack.end()-=2)) &&  i32(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u64and:{
             vm->ip++;
-            (*(vm->stack.end()-=2)) = boolean((u64) (*(vm->stack.end()-=2)) && ((u64) (vm->stack.back())).value);
+            (*(vm->stack.end()-=2)) = u64(u64(*(vm->stack.end()-=2)) &&  u64(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u128and:{
             vm->ip++;
-            (*(vm->stack.end()-=2)) = boolean((u128) (*(vm->stack.end()-=2)) && ((u128) (vm->stack.back())).value);
+            (*(vm->stack.end()-=2)) = u128(u128(*(vm->stack.end()-=2)) && u128(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u256and:{
             vm->ip++;
-            (*(vm->stack.end()-=2)) = boolean((u256) (*(vm->stack.end()-=2)) && ((u256) (vm->stack.back())).value);
+            (*(vm->stack.end()-=2)) = u256(u256(*(vm->stack.end()-=2)) &&  u256(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
+
+        // bug is above
 
         iconst_0:{
             vm->ip++;
@@ -1117,13 +1119,13 @@ public:
 
         u128inc:{
             vm->ip++;
-            *(vm->locals.begin() += (++it)->as_int64()) = u128(u64(*(vm->locals.begin() += (it)->as_int64())) + u128(boost::json::value_to<boost::multiprecision::uint128_t>(*(++it))));
+            *(vm->locals.begin() += (++it)->as_int64()) = u128(u64(*(vm->locals.begin() += (it)->as_int64())) + u128(boost::json::value_to<std::string>(*(++it))));
             goto *dtt[(++it)->as_int64()];
         };
 
         u256inc:{
             vm->ip++;
-            *(vm->locals.begin() += (++it)->as_int64()) = u256(u64(*(vm->locals.begin() += (it)->as_int64())) + u256(boost::json::value_to<boost::multiprecision::uint256_t>(*(++it))));
+            *(vm->locals.begin() += (++it)->as_int64()) = u256(u64(*(vm->locals.begin() += (it)->as_int64())) + u256(boost::json::value_to<std::string>(*(++it))));
             goto *dtt[(++it)->as_int64()];
         };
     }
@@ -1166,7 +1168,7 @@ public:
     }
 
     static bool null_object(Object &obj) {
-        return (obj.object == nullptr);
+        return obj.isNull();
     }
 
     uint16_t contract_size;

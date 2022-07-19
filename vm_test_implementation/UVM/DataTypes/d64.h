@@ -69,6 +69,10 @@ public:
         return (this->value + rhs);
     }
 
+    inline u128 operator||(const u128 &rhs) const {
+        return u128(this->value || rhs.value);
+    }
+
     inline double operator-(const d64 &rhs) const {
         if (*this < rhs)
             return 0;
@@ -97,6 +101,11 @@ public:
 
     inline d64 &operator--() {
         value -= 1;
+        return *this;
+    }
+
+    inline d64 &operator!() {
+        !value;
         return *this;
     }
 

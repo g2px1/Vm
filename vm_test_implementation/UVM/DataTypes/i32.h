@@ -88,6 +88,14 @@ public:
         return i32(this->value + rhs.value);
     }
 
+    inline i32 operator||(const i32 &rhs) const {
+        return i32(this->value || rhs.value);
+    }
+
+    inline i32 operator&&(const i32 &rhs) const {
+        return i32(this->value && rhs.value);
+    }
+
     inline i32 operator+(const Object &rhs) const {
         return i32(this->value + ((i32) rhs).value);
     }
@@ -135,6 +143,11 @@ public:
     // prefix
     inline i32 &operator++() {
         value += 1;
+        return *this;
+    }
+
+    inline i32 &operator!() {
+        !value;
         return *this;
     }
 

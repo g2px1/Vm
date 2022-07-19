@@ -94,6 +94,14 @@ public:
         return (this->value + ((u64) rhs).value);
     }
 
+    inline u64 operator||(const u64 &rhs) const {
+        return u64(this->value || rhs.value);
+    }
+
+    inline u64 operator&&(const u64 &rhs) const {
+        return u64(this->value && rhs.value);
+    }
+
     inline uint64_t operator-(const u64 &rhs) const {
         if (*this < rhs)
             return 0;
@@ -142,6 +150,11 @@ public:
 
     inline u64 &operator--() {
         value -= 1;
+        return *this;
+    }
+
+    inline u64 &operator!() {
+        !value;
         return *this;
     }
 

@@ -104,6 +104,14 @@ public:
         return u128(this->value + ((u128) rhs).value);
     }
 
+    inline u128 operator||(const u128 &rhs) const {
+        return u128(this->value || rhs.value);
+    }
+
+    inline u128 operator&&(const u128 &rhs) const {
+        return u128(this->value && rhs.value);
+    }
+
     inline u128 operator-(const u128 &rhs) const {
         if (*this < rhs)
             return u128(0);
@@ -164,6 +172,11 @@ public:
 
     inline u128 operator--(int) {
         --(this->value);
+        return *this;
+    }
+
+    inline u128 &operator!() {
+        !value;
         return *this;
     }
 

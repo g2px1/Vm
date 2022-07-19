@@ -13,7 +13,7 @@ class boolean : public Object{
 public:
     inline boolean() = default;
 
-    inline explicit boolean(bool &value) : Object((value) ? "true" : "false", TYPE){
+    inline explicit boolean(bool value) : Object((value) ? "true" : "false", TYPE){
         this->value = value;
     }
 

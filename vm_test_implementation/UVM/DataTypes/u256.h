@@ -101,6 +101,14 @@ public:
         return u256(this->value + ((u256) rhs).value);
     }
 
+    inline u256 operator||(const u256 &rhs) const {
+        return u256(this->value || rhs.value);
+    }
+
+    inline u256 operator&&(const u256 &rhs) const {
+        return u256(this->value && rhs.value);
+    }
+
     inline u256 operator-(const u256 &rhs) const {
         if (*this < rhs)
             return u256(0);
@@ -149,6 +157,11 @@ public:
 
     inline u256 &operator--() {
         value -= 1;
+        return *this;
+    }
+
+    inline u256 &operator!() {
+        !value;
         return *this;
     }
 

@@ -60,7 +60,8 @@ int main() {
     std::string code = R"({"functions": [{"test": [27]}], "values": [{"value":"test","type":0}]})";
     UniqueConstantPool uniqueConstantPool = UniqueConstantPool(code);
     std::string function = "test";
-    std::cout << uniqueConstantPool.loadFunction(function).value().at(0);
-//    VM vm = VM(10, code);
+    std::cout << uniqueConstantPool.loadFunction(function).value().at(0) << std::endl;
+    VM vm = VM(10, code);
+
     return 0;
 }
