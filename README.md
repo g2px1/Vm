@@ -13,7 +13,7 @@
 # ToDo:
 - [ ] BIP32 & BIP44
 - [ ] Pseudonymous
-- [ ] VM
+- [x] VM
 - [ ] ZK-STARK
 - [ ] DECENTRALIZATION
 - [ ] GPU counting Proof of Knowledge
@@ -228,6 +228,10 @@ The block with 10,000 transactions was counted in 40 minutes with one thread on 
 
 # Example of program bytecode(decimals)
 
+## Test №1
+
+> Time: 0 ms
+
 ```c++
 std::string code = R"({"functions": [{"test": [28, 28, 3, 0]}], "values": [{"value":"test","type":0}]})";
 UniqueConstantPool uniqueConstantPool = UniqueConstantPool(code);
@@ -237,3 +241,18 @@ boost::json::array test = uniqueConstantPool.loadFunction(function).value();
 VM::VMRun(&vm, test);
 std::cout << vm.stack.back(); // 2
 ```
+
+## Test №2
+
+> Time: 0 ms
+
+```c++
+std::string code = R"({"functions": [{"test": [29, 29, 128, 29, 6, 6, 6, 0]}], "values": [{"value":"test","type":0}]})";
+UniqueConstantPool uniqueConstantPool = UniqueConstantPool(code);
+std::string function = "test";
+VM vm = VM(10, code);
+boost::json::array test = uniqueConstantPool.loadFunction(function).value();
+VM::VMRun(&vm, test);
+std::cout << vm.stack.back(); // 40
+```
+

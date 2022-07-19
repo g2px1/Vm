@@ -56,7 +56,7 @@ public:
     inline static void VMRun(VM *vm, boost::json::array &stack_val) {
         boost::json::array::iterator it = stack_val.begin();
         void *dtt[] = {
-                &&_,
+                &&stop,
                 &&go_to,
                 &&swap_references,
                 &&iadd,
@@ -192,9 +192,13 @@ public:
                 &&u128inc,
                 &&u256inc
         }; // Direct Threading Table
-        goto *dtt[(++it)->as_int64()];
+        goto *dtt[(it)->as_int64()];
 
         _:{goto *dtt[(++it)->as_int64()];}; // placeholder
+
+        stop:{
+            return;
+        };
 
         ldc: {
             vm->stack.emplace_back(Object(vm->uniqueConstantPool.loadReference(boost::json::value_to<int>(*(++it)))));
@@ -294,133 +298,133 @@ public:
 
         iadd:{
             vm->ip++;
-            (i32)(*(vm->stack.end()-=2)) += (i32)(vm->stack.back());
+            (*(vm->stack.end()-=2)) = i32((i32)*(vm->stack.end()-=2) + i32(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u64add:{
             vm->ip++;
-            (u64)(*(vm->stack.end()-=2)) += (u64)(vm->stack.back());
+            (*(vm->stack.end()-=2)) = u64((u64)*(vm->stack.end()-=2) + u64(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u128add:{
             vm->ip++;
-            (u128)(*(vm->stack.end()-=2)) += (u128)(vm->stack.back());
+            (*(vm->stack.end()-=2)) = u128((u128)*(vm->stack.end()-=2) + u128(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u256add:{
             vm->ip++;
-            (u256)(*(vm->stack.end()-=2)) += (u256)(vm->stack.back());
+            (*(vm->stack.end()-=2)) = u256((u256)*(vm->stack.end()-=2) + u256(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         dadd:{
             vm->ip++;
-            (d64)(*(vm->stack.end()-=2)) += (d64)(vm->stack.back());
+            (*(vm->stack.end()-=2)) = d64((d64)*(vm->stack.end()-=2) + d64(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         isub:{
             vm->ip++;
-            (i32)(*(vm->stack.end()-=2)) -= (i32)(vm->stack.back());
+            (*(vm->stack.end()-=2)) = i32((i32)*(vm->stack.end()-=2) - i32(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u64sub:{
             vm->ip++;
-            (u64)(*(vm->stack.end()-=2)) -= (u64)(vm->stack.back());
+            (*(vm->stack.end()-=2)) = u64((u64)*(vm->stack.end()-=2) - u64(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u128sub:{
             vm->ip++;
-            (u128)(*(vm->stack.end()-=2)) -= (u128)(vm->stack.back());
+            (*(vm->stack.end()-=2)) = u128((u128)*(vm->stack.end()-=2) - u128(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u256sub:{
             vm->ip++;
-            (u256)(*(vm->stack.end()-=2)) -= (u256)(vm->stack.back());
+            (*(vm->stack.end()-=2)) = u256((u256)*(vm->stack.end()-=2) - u256(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         dsub:{
             vm->ip++;
-            (d64)(*(vm->stack.end()-=2)) -= (d64)(vm->stack.back());
+            (*(vm->stack.end()-=2)) = d64((d64)*(vm->stack.end()-=2) - d64(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         idivide:{
             vm->ip++;
-            (i32)(*(vm->stack.end()-=2)) /= (i32)(vm->stack.back());
+            (*(vm->stack.end()-=2)) = i32((i32)*(vm->stack.end()-=2) / i32(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u64divide:{
             vm->ip++;
-            (u64)(*(vm->stack.end()-=2)) /= (u64) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = u64((u64)*(vm->stack.end()-=2) / u64(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u128divide:{
             vm->ip++;
-            (u128)(*(vm->stack.end()-=2)) /= (u128) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = u128((u128)*(vm->stack.end()-=2) / u128(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u256divide:{
             vm->ip++;
-            (u256)(*(vm->stack.end()-=2)) /= (u256) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = u256((u256)*(vm->stack.end()-=2) / u256(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         ddivide:{
             vm->ip++;
-            (d64)(*(vm->stack.end()-=2)) /= (d64)(vm->stack.back());
+            (*(vm->stack.end()-=2)) = d64((d64)*(vm->stack.end()-=2) / d64(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         imul:{
             vm->ip++;
-            (i32)(*(vm->stack.end()-=2)) *= (i32) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = i32((i32)*(vm->stack.end()-=2) * i32(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u64mul:{
             vm->ip++;
-            (u64)(*(vm->stack.end()-=2)) *= (u64) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = u64((u64)*(vm->stack.end()-=2) * u64(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u128mul:{
             vm->ip++;
-            (u128)(*(vm->stack.end()-=2)) *= (u128) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = u128((u128)*(vm->stack.end()-=2) * u128(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u256mul:{
             vm->ip++;
-            (u256)(*(vm->stack.end()-=2)) *= (u256) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = u256((u256)*(vm->stack.end()-=2) * u256(vm->stack.back()));
             vm->stack.pop_back();
             goto
             *dtt[(++it)->as_int64()];
@@ -428,7 +432,7 @@ public:
 
         dmul:{
             vm->ip++;
-            (d64)(*(vm->stack.end()-=2)) *= (d64) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = d64((d64)*(vm->stack.end()-=2) * d64(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
@@ -438,55 +442,56 @@ public:
         imod: {
             vm->ip++;
             (i32)(*(vm->stack.end()-=2)) %= (i32) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = i32((i32)*(vm->stack.end()-=2) % i32(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u64mod:{
             vm->ip++;
-            (u64)(*(vm->stack.end()-=2)) %= (u64) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = u64((u64)*(vm->stack.end()-=2) % u64(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u128mod:{
             vm->ip++;
-            (u128)(*(vm->stack.end()-=2)) %= (u128) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = u128((u128)*(vm->stack.end()-=2) % u128(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u256mod:{
             vm->ip++;
-            (u256)(*(vm->stack.end()-=2)) %= (u256) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = u256((u256)*(vm->stack.end()-=2) % u256(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         ixor:{
             vm->ip++;
-            (i32) (*(vm->stack.end()-=2)) ^= (i32) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = i32((i32)*(vm->stack.end()-=2)  ^ i32(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u64xor:{
             vm->ip++;
-            (u64)(*(vm->stack.end()-=2)) ^= (u64) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = u64((u64)*(vm->stack.end()-=2)  ^ u64(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u128xor:{
             vm->ip++;
-            (u128)(*(vm->stack.end()-=2)) ^= (u128) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = u128((u128)*(vm->stack.end()-=2)  ^ u128(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u256xor:{
             vm->ip++;
-            (u256)(*(vm->stack.end()-=2)) ^= (u256) (vm->stack.back());
+            (*(vm->stack.end()-=2)) = u256((u256)*(vm->stack.end()-=2)  ^ u256(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
@@ -523,56 +528,56 @@ public:
 
         ilshift:{
             vm->ip++;
-            (i32)(*(vm->stack.end()-=2)) <<= ((i32) (vm->stack.back())).value;
+            (*(vm->stack.end()-=2)) = i32((i32)*(vm->stack.end()-=2)  << i32(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u64lshift:{
             vm->ip++;
-            (u64)(*(vm->stack.end()-=2)) <<= ((i32) (vm->stack.back())).value;
+            (*(vm->stack.end()-=2)) = u64((u64)*(vm->stack.end()-=2)  << i32(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u128lshift:{
             vm->ip++;
-            (u128)(*(vm->stack.end()-=2)) <<= ((i32) (vm->stack.back())).value;
+            (*(vm->stack.end()-=2)) = u128((u128)*(vm->stack.end()-=2)  << i32(vm->stack.back()).value);
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         u256lshift:{
             vm->ip++;
-            (u256) (*(vm->stack.end()-=2)) <<= ((i32) (vm->stack.back())).value;
+            (*(vm->stack.end()-=2)) = u256((u256)*(vm->stack.end()-=2)  << i32(vm->stack.back()).value);
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
         irshift:{
             vm->ip++;
-            (i32) (*(vm->stack.end()-=2)) >>= ((i32) (vm->stack.back())).value;
+            (*(vm->stack.end() -= 2)) = i32((i32) *(vm->stack.end() -= 2) >> i32(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
-        u64rshift:{
+        u64rshift: {
             vm->ip++;
-            (u64) (*(vm->stack.end()-=2)) >>= ((i32) (vm->stack.back())).value;
+            (*(vm->stack.end() -= 2)) = u64((u64) *(vm->stack.end() -= 2) >> i32(vm->stack.back()));
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
-        u128rshift:{
+        u128rshift: {
             vm->ip++;
-            (u128) (*(vm->stack.end()-=2)) >>= ((i32) (vm->stack.back())).value;
+            (*(vm->stack.end() -= 2)) = u128((u128) *(vm->stack.end() -= 2) >> i32(vm->stack.back()).value);
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
 
-        u256rshift:{
+        u256rshift: {
             vm->ip++;
-            (u256) (*(vm->stack.end()-=2)) >>= ((i32) (vm->stack.back())).value;
+            (*(vm->stack.end() -= 2)) = u256((u256) *(vm->stack.end() -= 2) >> i32(vm->stack.back()).value);
             vm->stack.pop_back();
             goto *dtt[(++it)->as_int64()];
         };
@@ -808,7 +813,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip)-(++it)->as_int64()));
+                std::advance(it, -((vm->ip)-(it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -821,7 +826,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto*dtt[it->as_int64()];
         };
@@ -832,9 +837,9 @@ public:
                 goto *dtt[(it += 2)->as_int64()];
 
             if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
+                it += (vm->ip - (it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -847,7 +852,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -860,7 +865,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -874,7 +879,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -889,7 +894,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -904,7 +909,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -917,7 +922,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -930,7 +935,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -943,7 +948,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -956,7 +961,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -969,7 +974,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -982,7 +987,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -995,7 +1000,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -1008,7 +1013,7 @@ public:
             if ((++it)->as_int64() < vm->ip)
                 it += (vm->ip - (++it)->as_int64());
             else
-                std::advance(it, -((vm->ip) - (++it)->as_int64()));
+                std::advance(it, -((vm->ip) - (it)->as_int64()));
 
             goto *dtt[it->as_int64()];
         };
@@ -1173,8 +1178,8 @@ public:
 
     uint16_t contract_size;
     UniqueConstantPool uniqueConstantPool;
-private:
     std::vector<Object> stack;
+private:
     Registers locals{}; // local storage
     uint32_t ip = 0;
 };

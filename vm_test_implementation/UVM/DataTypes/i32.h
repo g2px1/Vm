@@ -211,6 +211,14 @@ public:
         return i32(value << num);
     }
 
+    inline i32 operator<<(const i32 num) const {
+        return i32(value << num.value);
+    }
+
+    inline i32 operator>>(const i32 num) const {
+        return i32(value >> num.value);
+    }
+
     inline i32 operator>>(const int num) const {
         return i32(value >> num);
     }

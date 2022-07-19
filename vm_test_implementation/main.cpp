@@ -57,11 +57,15 @@ inline Object copy(Object &obj) {
 }
 
 int main() {
-    std::string code = R"({"functions": [{"test": [27]}], "values": [{"value":"test","type":0}]})";
-    UniqueConstantPool uniqueConstantPool = UniqueConstantPool(code);
-    std::string function = "test";
-    std::cout << uniqueConstantPool.loadFunction(function).value().at(0) << std::endl;
-    VM vm = VM(10, code);
-
+    {
+        LogDuration logDuration = LogDuration("test#1");
+        std::string code = R"({"functions": [{"test": [29, 29, 128, 29, 6, 6, 6, 29, 59, 13, 29, 29, 3, 0]}], "values": [{"value":"test","type":0}]})";
+        UniqueConstantPool uniqueConstantPool = UniqueConstantPool(code);
+        std::string function = "test";
+        VM vm = VM(10, code);
+        boost::json::array test = uniqueConstantPool.loadFunction(function).value();
+        VM::VMRun(&vm, test);
+        std::cout << vm.stack.back();
+    }
     return 0;
 }

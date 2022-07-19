@@ -213,6 +213,14 @@ public:
         return u64(value << num);
     }
 
+    inline u64 operator<<(const i32 num) const {
+        return u64(value << num.value);
+    }
+
+    inline u64 operator>>(const i32 num) const {
+        return u64(value >> num.value);
+    }
+
     inline u64 operator>>(const int num) const {
         return u64(value >> num);
     }
