@@ -46,7 +46,7 @@ The block with 10,000 transactions was counted in 40 minutes with one thread on 
 |006	|imul 			| num, num |multiply value 											| |value1,value2→result | - |true |
 |007	|imod 			| int, int |a % b														| |value1,value2→result |- |true |
 |008	|ixor 			| int, int |a ^ b														| |value1,value2→result |- |true |
-|009	|inv 			| num |!a															| |value→!value | - |true |
+|009	|iinv 			| num |!a															| |value→!value | - |true |
 |010	|ilshift		| int, int |a << val													| |value1,value2→result |second parameter  < int32 max value |true |
 |011	|irshift		| int |a >> val													| |value1,value2→result |- |true |
 |012	|pop 			| Object |pop value													| |value→ | - | true |
@@ -84,7 +84,7 @@ The block with 10,000 transactions was counted in 40 minutes with one thread on 
 | 044     | u256const_2      | -               | push uint256_t value 2 onto the stack                        |                  | → 2                                  | - | true |
 | 045     | u256const_3      | -               | push uint256_t value 3 onto the stack                        |                  | → 3                                  | - | true |
 | 046     | u256const_4      | -               | push uint256_t value 4 onto the stack                        |                  | → 4                                  | - | true |
-| 047     | ostore_0         | int             | push object value into local 0                               |                  | [no change]                          | - |true |
+| 047     |          | int             | push object value into local 0                               |                  | [no change]                          | - |true |
 | 048     | ostore_1         | int             | push object value into local 1                               |                  | [no change]                          | - |true |
 | 049     | ostore_2         | int             | push object value into local 2                               |                  | [no change]                          | - |true |
 | 050     | ostore_3         | int             | push object value into local 3                               |                  | [no change]                          | - |true |
@@ -171,7 +171,7 @@ The block with 10,000 transactions was counted in 40 minutes with one thread on 
 | 130 | u256const_5 | - | - | u256const_5 | → 5 | - | true |
 | 131 | u64inc | int,int | a + increasing_value(e.g 1,2,3,4,5,6,7,8,9 etc). First parameter - is index of local(e.g 1,2,3,4), second - increasing value. In example we're increasing value in local#1 by 4, so if we have in local#1, for example value 6, it'll become 10 after instruction | u64inc 1 4 | [No change] | - | true |
 | 131 | u128inc | int,int | a + increasing_value(e.g 1,2,3,4,5,6,7,8,9 etc). First parameter - is index of local(e.g 1,2,3,4), second - increasing value. In example we're increasing value in local#1 by 4, so if we have in local#1, for example value 6, it'll become 10 after instruction | u128inc 1 4 | [No change] | - | true |
-| 132 | u256inc          | int,int         | a + increasing_value(e.g 1,2,3,4,5,6,7,8,9 etc). First parameter - is index of local(e.g 1,2,3,4), second - increasing value. In example we're increasing value in local#1 by 4, so if we have in local#1, for example value 6, it'll become 10 after instruction | u256inc 1 4      | [No change]                          | -                                   | true |
+| 132 |                  | int,int         | a + increasing_value(e.g 1,2,3,4,5,6,7,8,9 etc). First parameter - is index of local(e.g 1,2,3,4), second - increasing value. In example we're increasing value in local#1 by 4, so if we have in local#1, for example value 6, it'll become 10 after instruction | u256inc 1 4      | [No change]                          | -                                   | true |
 
 [^1]: values array
 
@@ -229,11 +229,11 @@ The block with 10,000 transactions was counted in 40 minutes with one thread on 
 # Example of program bytecode(decimals)
 
 ```c++
-const int program[] = {
-    PSH, 5,
-    PSH, 6,
-    ADD,
-    POP,
-    HLT
-};
+std::string code = R"({"functions": [{"test": [28, 28, 3, 0]}], "values": [{"value":"test","type":0}]})";
+UniqueConstantPool uniqueConstantPool = UniqueConstantPool(code);
+std::string function = "test";
+VM vm = VM(10, code);
+boost::json::array test = uniqueConstantPool.loadFunction(function).value();
+VM::VMRun(&vm, test);
+std::cout << vm.stack.back(); // 2
 ```
