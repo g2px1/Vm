@@ -4,10 +4,7 @@
 
 #ifndef VM_TEST_IMPLEMENTATION_SHAREDCONSTANTPOOL_H
 #define VM_TEST_IMPLEMENTATION_SHAREDCONSTANTPOOL_H
-#include "tuple"
-#include "vector"
 #include "boost/multiprecision/cpp_int.hpp"
-#include "../Object.h"
 
 class SharedConstantPool {
 public:

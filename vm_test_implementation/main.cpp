@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <iterator>
 #include "timeTest/LogDuration.h"
+#include "UVM/VM.h"
 
 void pop(std::vector<int> &vec) {
     vec.pop_back();
@@ -56,17 +57,10 @@ inline Object copy(Object &obj) {
 }
 
 int main() {
-    Object object = Object();
-    object.setObject("test");
-    Object object1 = Object();
-    object1.setObject("test2");
-    u128 u1 = u128(111);
-    Object object2 = Object();
-    object2.setObject("2222");
-    std::vector<Object> vector1 = {object, object1, u1, object, object1};
-
-    std::vector<Object>::iterator it = vector1.begin();
-    *(it += 2) = u256(u256(1) + u256(2));
-    std::cout << ((u128)*it).value << std::endl;
+    std::string code = R"({"functions": [{"test": [27]}], "values": [{"value":"test","type":0}]})";
+    UniqueConstantPool uniqueConstantPool = UniqueConstantPool(code);
+    std::string function = "test";
+    std::cout << uniqueConstantPool.loadFunction(function).value().at(0);
+//    VM vm = VM(10, code);
     return 0;
 }

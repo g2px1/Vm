@@ -34,15 +34,15 @@ public:
         this->deserialize(parsed.at("values"));
     }
 
-    inline std::optional<std::vector<uint16_t>> loadFunction(std::string &name) {
+    inline std::optional<boost::json::array> loadFunction(std::string &name) {
         std::tuple exist = this->function_exist(name);
         if (!std::get<0>(exist))
             return std::nullopt;
-        return boost::json::value_to<std::vector<uint16_t>>(this->programPool.as_array()[std::get<1>(exist)].at(name));
+        return this->programPool.as_array()[std::get<1>(exist)].at(name).as_array();
     }
 
     inline Object loadReference(int index) {
-        return *&dataValues[index];
+        return dataValues[index];
     }
 
     inline void updateReferenceValue(int index, Object &value) {
