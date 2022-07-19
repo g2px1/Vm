@@ -37,18 +37,18 @@ The block with 10,000 transactions was counted in 40 minutes with one thread on 
 
 |hex num|name   		|args |note   													|examples |Stack [before]→[after] |exception |Implemented(true/false) |
 |	:---|	:---:		|	----|				:---:										|	----|	----|	----|	----|
-|000	|stop   		| - |stop execution of the contract 							| stop |[no change] | - |- |
+|000	|stop   		| - |stop execution of the contract 							| stop |[no change] | - |false |
 | 001     | go_to            | int             | goes to another instruction at *branchoffset*                | go_to 2          |[no change] | - |true |
 |002	|swap_references   		| int,int         |swaps two references. indexing starts from top of stack   									| swap 1 3 |value1,value2→value2,value1 | - |true |
 |003	|iadd 			| num, num |adding value 											| |value1,value2→result | - |true |
 |004	|isub 			| num, num |subtract value 											| |value1,value2→result | - |true |
-|005	|idivide 		| num, num |devide value 												| |value1,value2→result | - | |
-|006	|imul 			| num, num |multiply value 											| |value1,value2→result | - | |
-|007	|imod 			| int, int |a % b														| |value1,value2→result |- | |
-|008	|ixor 			| int, int |a ^ b														| |value1,value2→result |- | |
-|009	|inv 			| num |!a															| |value→!value | - | |
-|010	|ilshift		| int, int |a << val													| |value1,value2→result |- | |
-|011	|irshift		| int |a >> val													| |value1,value2→result |- | |
+|005	|idivide 		| num, num |devide value 												| |value1,value2→result | - |true |
+|006	|imul 			| num, num |multiply value 											| |value1,value2→result | - |true |
+|007	|imod 			| int, int |a % b														| |value1,value2→result |- |true |
+|008	|ixor 			| int, int |a ^ b														| |value1,value2→result |- |true |
+|009	|inv 			| num |!a															| |value→!value | - |true |
+|010	|ilshift		| int, int |a << val													| |value1,value2→result |second parameter  < int32 max value |true |
+|011	|irshift		| int |a >> val													| |value1,value2→result |- |true |
 |012	|pop 			| Object |pop value													| |value→ | - | |
 |013	|push 			| Object |push value													| |→value | - | |
 |014	|dup 			| Object |duplicate from top of the stack											| |value→value1,value1 | - | |
@@ -117,54 +117,54 @@ The block with 10,000 transactions was counted in 40 minutes with one thread on 
 | 077     | u64add           | num, num        | adding value                                                 |                  | value1,value2→value1+value2          | - |true |
 | 078     | u128add          | num, num        | adding value                                                 |                  | value1,value2→value1+value2          | - |true |
 | 079     | u256add          | num, num        | adding value                                                 |                  | value1,value2→value1+value2          | - |true |
-| 080     | dadd             | num, num        | adding value                                                 |                  | value1,value2→value1+value2          | - | |
+| 080     | dadd             | num, num        | adding value                                                 |                  | value1,value2→value1+value2          | - |true |
 | 081     | u64sub           | num, num        | substract value                                              |                  | value1,value2→value1-value2          | - |true |
 | 082     | u128sub          | num, num        | substract value                                              |                  | value1,value2→value1-value2          | - |true |
 | 083     | u256sub          | num, num        | substract value                                              |                  | value1,value2→value1-value2          | - |true |
-| 084     | dsub             | num, num        | substract value                                              |                  |value1,value2→value1-value2 | - | |
-| 085 | u64divide | num, num | devide value | |value1,value2→value1/value2 | - | |
-| 086 | u64mul | num, num | multiply value | |value1,value2→value1*value2 | - | |
-| 087 | u64mod | int, int | a % b | |value1,value2→value1%value2 |double | |
-| 088 | u64xor | int, int | a ^ b | |value1,value2→value1^value2 |double | |
-| 089 | u64inv | num | !a | |value→!value | - | |
-| 090 | u64lshift | int, int | a << val | |value1,value2→value1<<value2 |double | |
-| 091 | u128divide | num, num | devide value | |value1,value2→value1/value2 | - | |
-| 092 | u128mul | num, num | multiply value | |value1,value2→value1*value2 | - | |
-| 093 | u128mod | int, int | a % b | |value1,value2→value1%value2 |double | |
-| 094 | u128xor | int, int | a ^ b | |value1,value2→value1^value2 |double | |
-| 095 | u128inv | num | !a | |value→!value | - | |
-| 096 | u128lshift | int, int | a << val | |value1,value2→value1<<value2 |double | |
-| 097 | u256divide | num, num | devide value | |value1,value2→value1/value2 | - | |
-| 098 | u256mul | num, num | multiply value | |value1,value2→value1*value2 | - | |
-| 099 | u256mod | int, int | a % b | |value1,value2→value1%value2 |double | |
-| 100 | u256xor | int, int | a ^ b | |value1,value2→value1^value2 |double | |
-| 101 | u256inv | num | !a | |value→!value | - | |
-| 102 | u256lshift | int, int | a << val | |value1,value2→value1<<value2 |double | |
-| 101 | dinv | num | !a | |value→!value | - | |
-| 102 | ddivide | num, num | devide value | |value1,value2→value1/value2 | - | |
-| 103 | dmul | num, num | multiply value | |value1,value2→value1*value2 | - | |
-| 104 | u64or | num | a \|\| b | |value1,value2→value1\|\|value2 | - | |
-| 105 | u64and | int | a & b | |value1,value2→value1&value2 |double | |
-| 106 | u128or | num | a \|\| b | |value1,value2→value1\|\|value2 | - | |
-| 107 | u128and | int | a & b | |value1,value2→value1&value2 |double | |
-| 108 | u256or | num | a \|\| b | |value1,value2→value1\|\|value2 | - | |
-| 109 | u256and | int | a & b | |value1,value2→value1&value2 |double | |
-| 110 | dor | num | a \|\| b | |value1,value2→value1\|\|value2 | - | |
-| 111 | iinc | int, num | a + increasing_value(e.g 1,2,3,4,5,6,7,8,9 etc). First parameter - is index of local(e.g 1,2,3,4), second - increasing value. In example we're increasing value in local#1 by 4, so if we have in local#1, for example value 6, it'll become 10 after instruction | iinc 1 4 | [No change] | - | |
-| 112 | i2d | num,num | convert int to double (two top values from stack) | i2d | value→result | - | |
-| 113 | i2u64 | num,num | convert int to uint64 (two top values from stack) | i2u64 | value→result | - | |
-| 114 | i2u128 | num,num | convert int to uint128 (two top values from stack) | i2u128 | value→result | - | |
-| 115 | i2u256 | num,num | convert int to uint256 (two top values from stack) | i2u256 | value→result | - | |
-| 116 | d2i | num,num | convert double to int (two top values from stack) | d2i | value→result | - | |
-| 117 | d2u64 | num,num | convert double to uint64 (two top values from stack) | d2u64 | value→result | - | |
-| 118 | d2u128 | num,num | convert double to uint128 (two top values from stack) | d2u128 | value→result | - | |
-| 119 | d2u256 | num,num | convert double to uint256 (two top values from stack) | d2u256 | value→result | - | |
-| 120 | u64_2u128 | num,num | convert uint64 to uint128 (two top values from stack) | u64_2u128 | value→result | - | |
-| 121 | u64_2u256 | num,num | convert uint64 to uint256 (two top values from stack) | u64_2u256 | value→result | - | |
-| 122 | u128_2u256 | num,num | convert uint128 to uint256 (two top values from stack) | u128_2u256 | value→result | - | |
-| | | | | | |  | |
-| | | | | | |  | |
-| | | | | | |  | |
+| 084     | dsub             | num, num        | substract value                                              |                  |value1,value2→value1-value2 | - |true |
+| 085 | u64divide | num, num | devide value | |value1,value2→value1/value2 | - |true |
+| 086 | u64mul | num, num | multiply value | |value1,value2→value1*value2 | - |true |
+| 087 | u64mod | int, int | a % b | |value1,value2→value1%value2 |double |true |
+| 088 | u64xor | int, int | a ^ b | |value1,value2→value1^value2 |double |true |
+| 089 | u64inv | num | !a | |value→!value | - |true |
+| 090 | u64lshift | int, int | a << val | |value1,value2→value1<<value2 |second parameter  < int32 max value |true |
+| 091 | u128divide | num, num | devide value | |value1,value2→value1/value2 | - |true |
+| 092 | u128mul | num, num | multiply value | |value1,value2→value1*value2 | - |true |
+| 093 | u128mod | int, int | a % b | |value1,value2→value1%value2 |double |true |
+| 094 | u128xor | int, int | a ^ b | |value1,value2→value1^value2 |double |true |
+| 095 | u128inv | num | !a | |value→!value | - |true |
+| 096     | u256divide       | num, num        | devide value                                                 |                  | value1,value2→value1/value2          | -                                   |true |
+| 097     | u256mul          | num, num        | multiply value                                               |                  | value1,value2→value1*value2          | -                                   | true                    |
+| 098     | u256mod          | int, int        | a % b                                                        |                  | value1,value2→value1%value2          | double                              | true                    |
+| 099     | u256xor          | int, int        | a ^ b                                                        |                  | value1,value2→value1^value2          | double                              | true                    |
+| 100     | u256inv          | num             | !a                                                           |                  | value→!value                         | -                                   | true                    |
+| 101     | u256lshift       | int, int        | a << val                                                     |                  | value1,value2→value1<<value2         | second parameter  < int32 max value | true                    |
+| 102     | dinv             | num             | !a                                                           |                  | value→!value                         | -                                   | true                    |
+| 103     | ddivide          | num, num        | devide value                                                 |                  | value1,value2→value1/value2          | -                                   | true                    |
+| 104     | dmul             | num, num        | multiply value                                               |                  | value1,value2→value1*value2          | -                                   | True                    |
+| 105     | u64or            | num             | a \|\| b                                                     |                  | value1,value2→value1\|\|value2       | -                                   |                         |
+| 106     | u64and           | int             | a & b                                                        |                  | value1,value2→value1&value2          | double                              |                         |
+| 107     | u128or           | num             | a \|\| b                                                     |                  | value1,value2→value1\|\|value2       | -                                   |                         |
+| 108     | u128and          | int             | a & b                                                        |                  | value1,value2→value1&value2          | double                              |                         |
+| 109     | u256or           | num             | a \|\| b                                                     |                  | value1,value2→value1\|\|value2       | -                                   |                         |
+| 110     | u256and          | int             | a & b                                                        |                  | value1,value2→value1&value2          | double                              |                         |
+| 111     | dor              | num             | a \|\| b                                                     |                  | value1,value2→value1\|\|value2       | -                                   |                         |
+| 112     | iinc             | int, num        | a + increasing_value(e.g 1,2,3,4,5,6,7,8,9 etc). First parameter - is index of local(e.g 1,2,3,4), second - increasing value. In example we're increasing value in local#1 by 4, so if we have in local#1, for example value 6, it'll become 10 after instruction | iinc 1 4         | [No change]                          | -                                   |                         |
+| 113     | i2d              | num,num         | convert int to double (two top values from stack)            | i2d              | value→result                         | -                                   |                         |
+| 114     | i2u64            | num,num         | convert int to uint64 (two top values from stack)            | i2u64            | value→result                         | -                                   |                         |
+| 115     | i2u128           | num,num         | convert int to uint128 (two top values from stack)           | i2u128           | value→result                         | -                                   |                         |
+| 116     | i2u256           | num,num         | convert int to uint256 (two top values from stack)           | i2u256           | value→result                         | -                                   |                         |
+| 117     | d2i              | num,num         | convert double to int (two top values from stack)            | d2i              | value→result                         | -                                   |                         |
+| 118     | d2u64            | num,num         | convert double to uint64 (two top values from stack)         | d2u64            | value→result                         | -                                   |                         |
+| 119     | d2u128           | num,num         | convert double to uint128 (two top values from stack)        | d2u128           | value→result                         | -                                   |                         |
+| 120     | d2u256           | num,num         | convert double to uint256 (two top values from stack)        | d2u256           | value→result                         | -                                   |                         |
+| 121     | u64_2u128        | num,num         | convert uint64 to uint128 (two top values from stack)        | u64_2u128        | value→result                         | -                                   |                         |
+| 122     | u64_2u256        | num,num         | convert uint64 to uint256 (two top values from stack)        | u64_2u256        | value→result                         | -                                   |                         |
+| 123     | u128_2u256       | num,num         | convert uint128 to uint256 (two top values from stack)       | u128_2u256       | value→result                         | -                                   |                         |
+| 124     | u128lshift       | int, int        | a << val                                                     |                  | value1,value2→value1<<value2         | second parameter  < int32 max value |true |
+| 125 | u64rshift | int, int | a << val | | value1,value2→value1<<value2 | second parameter  < int32 max value |true |
+| 125 | u128rshift | int, int | a << val | | value1,value2→value1<<value2 | second parameter  < int32 max value |true |
+| 126 | u256rshift | int, int | a << val | | value1,value2→value1<<value2 | second parameter  < int32 max value |true |
 | | | | | | |  | |
 | | | | | | |  | |
 | | | | | | |  | |

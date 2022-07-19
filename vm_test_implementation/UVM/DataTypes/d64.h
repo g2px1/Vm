@@ -22,6 +22,7 @@ public:
 
     inline explicit d64(const std::string &str) {
         this->value = std::stod(str);
+        this->type = TYPE;
     }
 
     double value{};
@@ -70,12 +71,12 @@ public:
         return (this->value - rhs.value);
     }
 
-    inline d64 &operator+=(d64 &c2) {
+    inline d64 &operator+=(d64 c2) {
         this->value += c2.value;
         return *this;
     }
 
-    inline d64 &operator-=(d64 &c2) {
+    inline d64 &operator-=(d64 c2) {
         if (*this < c2) {
             d64 c1 = d64(0);
             return c1;
@@ -118,12 +119,12 @@ public:
         return (fmod(this->value, rhs.value));
     }
 
-    inline d64 &operator*=(d64 &c2) {
+    inline d64 &operator*=(d64 c2) {
         this->value *= c2.value;
         return *this;
     }
 
-    inline d64 &operator/=(d64 &c2) {
+    inline d64 &operator/=(d64 c2) {
         this->value /= c2.value;
         return *this;
     }

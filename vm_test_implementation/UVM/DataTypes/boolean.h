@@ -23,6 +23,7 @@ public:
         } catch (boost::bad_lexical_cast::bad_lexical_cast::bad_cast &) {
             this->value = (str == "true");
         }
+        this->type = TYPE;
     }
 
     inline explicit boolean(int value) : Object((value) ? "true" : "false", 6){

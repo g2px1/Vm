@@ -23,6 +23,7 @@ public:
     inline explicit i32(const std::string &str) {
         std::istringstream iss(str);
         iss >> this->value;
+        this->type = TYPE;
     }
 
     int value{};
@@ -201,12 +202,32 @@ public:
         return i32(value >> num);
     }
 
-    inline i32 &operator*=(i32 &c2) {
+    inline i32 operator<<=(const int num) {
+        value <<= num;
+        return *this;
+    }
+
+    inline i32 operator>>=(const int num)  {
+        value >>= num;
+        return *this;
+    }
+
+    inline i32 operator<<=(const i32 num) {
+        value <<= num.value;
+        return *this;
+    }
+
+    inline i32 operator>>=(const i32 num)  {
+        value >>= num.value;
+        return *this;
+    }
+
+    inline i32 &operator*=(i32 c2) {
         this->value *= c2.value;
         return *this;
     }
 
-    inline i32 &operator*=(Object &c2) {
+    inline i32 &operator*=(Object c2) {
         this->value *= ((i32) c2).value;
         return *this;
     }
@@ -221,22 +242,22 @@ public:
         return *this;
     }
 
-    inline i32 &operator%=(i32 &c2) {
+    inline i32 &operator%=(i32 c2) {
         this->value %= c2.value;
         return *this;
     }
 
-    inline i32 &operator%=(Object &c2) {
+    inline i32 &operator%=(Object c2) {
         this->value %= ((i32) c2).value;
         return *this;
     }
 
-    inline i32 &operator^=(i32 &c2) {
+    inline i32 &operator^=(i32 c2) {
         this->value ^= c2.value;
         return *this;
     }
 
-    inline i32 &operator^=(Object &c2) {
+    inline i32 &operator^=(Object c2) {
         this->value ^= ((i32) c2).value;
         return *this;
     }

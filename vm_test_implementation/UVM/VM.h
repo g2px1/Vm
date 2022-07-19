@@ -189,6 +189,13 @@ public:
             goto *ddt[(++it)->as_int64()];
         };
 
+        dadd:{
+            vm->ip++;
+            (d64)(*(--vm->stack.end())) += (d64)(vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
         isub:{
             vm->ip++;
             (i32)(*(--vm->stack.end())) -= (i32)(vm->stack.back());
@@ -217,9 +224,228 @@ public:
             goto *ddt[(++it)->as_int64()];
         };
 
+        dsub:{
+            vm->ip++;
+            (d64)(*(--vm->stack.end())) -= (d64)(vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
         idivide:{
             vm->ip++;
             (i32)(*(--vm->stack.end())) /= (i32)(vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u64divide:{
+            vm->ip++;
+            (u64) (*(--vm->stack.end())) /= (u64) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u128divide:{
+            vm->ip++;
+            (u128) (*(--vm->stack.end())) /= (u128) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u256divide:{
+            vm->ip++;
+            (u256) (*(--vm->stack.end())) /= (u256) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        ddivide:{
+            vm->ip++;
+            (d64)(*(--vm->stack.end())) /= (d64)(vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        imul:{
+            vm->ip++;
+            (i32) (*(--vm->stack.end())) *= (i32) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u64mul:{
+            vm->ip++;
+            (u64) (*(--vm->stack.end())) *= (u64) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u128mul:{
+            vm->ip++;
+            (u128) (*(--vm->stack.end())) *= (u128) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u256mul:{
+            vm->ip++;
+            (u256) (*(--vm->stack.end())) *= (u256) (vm->stack.back());
+            vm->stack.pop_back();
+            goto
+            *ddt[(++it)->as_int64()];
+        };
+
+        dmul:{
+            vm->ip++;
+            (d64) (*(--vm->stack.end())) *= (d64) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        imod: {
+            vm->ip++;
+            (i32) (*(--vm->stack.end())) %= (i32) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u64mod:{
+            vm->ip++;
+            (u64) (*(--vm->stack.end())) %= (u64) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u128mod:{
+            vm->ip++;
+            (u128) (*(--vm->stack.end())) %= (u128) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u256mod:{
+            vm->ip++;
+            (u256) (*(--vm->stack.end())) %= (u256) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        ixor:{
+            vm->ip++;
+            (i32) (*(--vm->stack.end())) ^= (i32) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u64xor:{
+            vm->ip++;
+            (u64) (*(--vm->stack.end())) ^= (u64) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u128xor:{
+            vm->ip++;
+            (u128) (*(--vm->stack.end())) ^= (u128) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u256xor:{
+            vm->ip++;
+            (u256) (*(--vm->stack.end())) ^= (u256) (vm->stack.back());
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        iinv:{
+            vm->ip++;
+            !(i32) (*(--vm->stack.end()));
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u64inv: {
+            vm->ip++;
+            !(u64) (*(--vm->stack.end()));
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u128inv:{
+            vm->ip++;
+            !(u128) (*(--vm->stack.end()));
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u256inv:{
+            vm->ip++;
+            (u256) (*(--vm->stack.end())) *= (u256) (vm->stack.back());
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        dinv:{
+            vm->ip++;
+            (d64) (*(--vm->stack.end())) *= (d64) (vm->stack.back());
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        ilshift:{
+            vm->ip++;
+            (i32) (*(--vm->stack.end())) <<= ((i32) (vm->stack.back())).value;
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u64lshift:{
+            vm->ip++;
+            (u64) (*(--vm->stack.end())) <<= ((i32) (vm->stack.back())).value;
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u128lshift:{
+            vm->ip++;
+            (u128) (*(--vm->stack.end())) <<= ((i32) (vm->stack.back())).value;
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u256lshift:{
+            vm->ip++;
+            (u256) (*(--vm->stack.end())) <<= ((i32) (vm->stack.back())).value;
+            vm->stack.pop_back();
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        irshift:{
+            vm->ip++;
+            (i32) (*(--vm->stack.end())) >>= ((i32) (vm->stack.back())).value;
+            vm->stack.pop_back();
+            goto
+            *ddt[(++it)->as_int64()];
+        };
+
+        u64rshift:{
+            vm->ip++;
+            (u64) (*(--vm->stack.end())) >>= ((i32) (vm->stack.back())).value;
+            vm->stack.pop_back();
+            goto
+            *ddt[(++it)->as_int64()];
+        };
+
+        u128rshift:{
+            vm->ip++;
+            (u128) (*(--vm->stack.end())) >>= ((i32) (vm->stack.back())).value;
+            vm->stack.pop_back();
+            goto
+            *ddt[(++it)->as_int64()];
+        };
+
+        u256rshift:{
+            vm->ip++;
+            (u256) (*(--vm->stack.end())) >>= ((i32) (vm->stack.back())).value;
+            vm->stack.pop_back();
+            goto
+            *ddt[(++it)->as_int64()];
         };
 
         stop: {

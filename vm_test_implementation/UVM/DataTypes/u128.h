@@ -22,7 +22,6 @@ public:
 
     inline explicit u128(int u) : Object(std::to_string(u), TYPE) {
         this->value = u;
-//        this->type = TYPE;
     }
 
     inline explicit u128(uint64_t &u) : Object(std::to_string(u), TYPE) {
@@ -34,7 +33,10 @@ public:
     }
 
     inline explicit u128(const std::string& str) : Object(str, TYPE) {
-        this->value = boost::multiprecision::uint128_t(str);
+        std::string intVal = (((str.find('.') == std::string::npos)) ? str : str.substr(0, str.find('.')));
+        std::cout << "from u128: " << intVal << std::endl;
+        this->value = boost::multiprecision::uint128_t(intVal);
+        this->type = TYPE;
     }
 
     boost::multiprecision::uint128_t value;
@@ -213,42 +215,52 @@ public:
         return u128(value >> num);
     }
 
-    inline u128 &operator*=(u128 &c2) {
+    inline u128 operator<<=(const int num) {
+        value <<= num;
+        return *this;
+    }
+
+    inline u128 operator>>=(const int num)  {
+        value >>= num;
+        return *this;
+    }
+
+    inline u128 &operator*=(u128 c2) {
         this->value *= c2.value;
         return *this;
     }
 
-    inline u128 &operator*=(Object &c2) {
+    inline u128 &operator*=(Object c2) {
         this->value *= ((u128) c2).value;
         return *this;
     }
 
-    inline u128 &operator/=(u128 &c2) {
+    inline u128 &operator/=(u128 c2) {
         this->value /= c2.value;
         return *this;
     }
 
-    inline u128 &operator/=(Object &c2) {
+    inline u128 &operator/=(Object c2) {
         this->value /= ((u128) c2).value;
         return *this;
     }
 
-    inline u128 &operator%=(u128 &c2) {
+    inline u128 &operator%=(u128 c2) {
         this->value %= c2.value;
         return *this;
     }
 
-    inline u128 &operator%=(Object &c2) {
+    inline u128 &operator%=(Object c2) {
         this->value %= ((u128) c2).value;
         return *this;
     }
 
-    inline u128 &operator^=(u128 &c2) {
+    inline u128 &operator^=(u128 c2) {
         this->value ^= c2.value;
         return *this;
     }
 
-    inline u128 &operator^=(Object &c2) {
+    inline u128 &operator^=(Object c2) {
         this->value ^= ((u128) c2).value;
         return *this;
     }

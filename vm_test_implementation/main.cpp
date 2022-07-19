@@ -68,10 +68,9 @@ int main() {
 //        for(int i = 0; i < vector.size(); i++)
 //            swapInt(&vector[i], &vector[vector.size()-i]);
 //    }
-    d64 d = d64(((0.3*3)+0.1));
-    d64 b = d64(1);
-
-    std::cout << (b == d) << std::endl;
-
+    boost::multiprecision::uint256_t d(111);
+    boost::multiprecision::uint256_t b(2);
+    uint64_t c = 2;
+    std::cout << (d >> 2) << std::endl;
     return 0;
 }

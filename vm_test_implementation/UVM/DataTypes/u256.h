@@ -31,7 +31,8 @@ public:
     }
 
     inline explicit u256(const std::string& str) {
-        this->value = boost::multiprecision::uint256_t(str);
+        this->value = boost::multiprecision::uint256_t((((str.find('.') != std::string::npos)) ? str.substr(0, str.find('.')) : str));
+        this->type = TYPE;
     }
 
     boost::multiprecision::uint256_t value;
@@ -210,42 +211,52 @@ public:
         return u256(value >> num);
     }
 
-    inline u256 &operator*=(u256 &c2) {
+    inline u256 operator<<=(const int num) {
+        value <<= num;
+        return *this;
+    }
+
+    inline u256 operator>>=(const int num)  {
+        value >>= num;
+        return *this;
+    }
+
+    inline u256 &operator*=(u256 c2) {
         this->value *= c2.value;
         return *this;
     }
 
-    inline u256 &operator*=(Object &c2) {
+    inline u256 &operator*=(Object c2) {
         this->value *= ((u256) c2).value;
         return *this;
     }
 
-    inline u256 &operator/=(u256 &c2) {
+    inline u256 &operator/=(u256 c2) {
         this->value /= c2.value;
         return *this;
     }
 
-    inline u256 &operator/=(Object &c2) {
+    inline u256 &operator/=(Object c2) {
         this->value /= ((u256) c2).value;
         return *this;
     }
 
-    inline u256 &operator%=(u256 &c2) {
+    inline u256 &operator%=(u256 c2) {
         this->value %= c2.value;
         return *this;
     }
 
-    inline u256 &operator%=(Object &c2) {
+    inline u256 &operator%=(Object c2) {
         this->value %= ((u256) c2).value;
         return *this;
     }
 
-    inline u256 &operator^=(u256 &c2) {
+    inline u256 &operator^=(u256 c2) {
         this->value ^= c2.value;
         return *this;
     }
 
-    inline u256 &operator^=(Object &c2) {
+    inline u256 &operator^=(Object c2) {
         this->value ^= ((u256) c2).value;
         return *this;
     }

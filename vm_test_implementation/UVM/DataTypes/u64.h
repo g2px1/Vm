@@ -29,6 +29,7 @@ public:
     inline explicit u64(const std::string &str) {
         std::istringstream iss(str);
         iss >> this->value;
+        this->type = TYPE;
     }
 
     uint64_t value{};
@@ -207,42 +208,62 @@ public:
         return u64(value >> num);
     }
 
-    inline u64 &operator*=(u64 &c2) {
+    inline u64 operator<<=(const int num) {
+        value <<= num;
+        return *this;
+    }
+
+    inline u64 operator>>=(const int num)  {
+        value >>= num;
+        return *this;
+    }
+
+    inline u64 operator<<=(const u64 num) {
+        value <<= num.value;
+        return *this;
+    }
+
+    inline u64 operator>>=(const u64 num)  {
+        value >>= num.value;
+        return *this;
+    }
+
+    inline u64 &operator*=(u64 c2) {
         this->value *= c2.value;
         return *this;
     }
 
-    inline u64 &operator*=(Object &c2) {
+    inline u64 &operator*=(Object c2) {
         this->value *= ((u64) c2).value;
         return *this;
     }
 
-    inline u64 &operator/=(u64 &c2) {
+    inline u64 &operator/=(u64 c2) {
         this->value /= c2.value;
         return *this;
     }
 
-    inline u64 &operator/=(Object &c2) {
+    inline u64 &operator/=(Object c2) {
         this->value /= ((u64) c2).value;
         return *this;
     }
 
-    inline u64 &operator%=(u64 &c2) {
+    inline u64 &operator%=(u64 c2) {
         this->value %= c2.value;
         return *this;
     }
 
-    inline u64 &operator%=(Object &c2) {
+    inline u64 &operator%=(Object c2) {
         this->value %= ((u64) c2).value;
         return *this;
     }
 
-    inline u64 &operator^=(u64 &c2) {
+    inline u64 &operator^=(u64 c2) {
         this->value ^= c2.value;
         return *this;
     }
 
-    inline u64 &operator^=(Object &c2) {
+    inline u64 &operator^=(Object c2) {
         this->value ^= ((u64) c2).value;
         return *this;
     }
