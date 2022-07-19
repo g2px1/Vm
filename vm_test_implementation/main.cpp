@@ -68,21 +68,10 @@ int main() {
 //        for(int i = 0; i < vector.size(); i++)
 //            swapInt(&vector[i], &vector[vector.size()-i]);
 //    }
+    d64 d = d64(((0.3*3)+0.1));
+    d64 b = d64(1);
 
-    std::vector<int> vector = {1,2,3,4,5};
-    std::vector<int>::iterator it = vector.end();
-
-    --it;
-    *it = 10;
-
-    std::cout << *it << std::endl;
-
-    i32 i1 = i32(10);
-    i32 i2 = i32(11);
-
-    i2 += i1;
-
-    std::cout << i2;
+    std::cout << (b == d) << std::endl;
 
     return 0;
 }

@@ -211,12 +211,12 @@ public:
         return *this;
     }
 
-    inline i32 &operator/=(i32 &c2) {
+    inline i32 &operator/=(i32 c2) {
         this->value /= c2.value;
         return *this;
     }
 
-    inline i32 &operator/=(Object &c2) {
+    inline i32 &operator/=(Object c2) {
         this->value /= ((i32) c2).value;
         return *this;
     }

@@ -35,7 +35,9 @@ public:
     }
 
     inline bool operator==(const d64 &rhs) const {
-        return this->value == rhs.value;
+        if(abs(this->value - rhs.value) < 1e-9)
+            return true;
+        return false;
     }
 
     inline bool operator!=(const d64 &rhs) const {

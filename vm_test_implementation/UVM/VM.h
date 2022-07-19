@@ -217,6 +217,11 @@ public:
             goto *ddt[(++it)->as_int64()];
         };
 
+        idivide:{
+            vm->ip++;
+            (i32)(*(--vm->stack.end())) /= (i32)(vm->stack.back());
+        };
+
         stop: {
             return;
         };
