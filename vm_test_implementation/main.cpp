@@ -48,29 +48,26 @@ void swapInt(int *r, int *s){
     *s = temp;
 }
 
+inline Object copy(Object &obj) {
+    Object object;
+    object.object = obj.object;
+    object.type = obj.type;
+    return object;
+}
+
 int main() {
     Object object = Object();
     object.setObject("test");
     Object object1 = Object();
     object1.setObject("test2");
     u128 u1 = u128(111);
+    Object object2 = Object();
+    object2.setObject("2222");
+    std::vector<Object> vector1 = {object, object1, u1, object, object1};
 
-//    std::vector<Object> vector1 = {object, object1, u1};
-//
-//    print_vector(vector1);
-//    swap(&vector1[0], &vector1[vector1.size()-1]);
-//    print_vector(vector1);
+    std::vector<Object>::iterator it = vector1.begin();
 
-//    std::cout << vector1[vector1.size()-1] << std::endl;
-//    std::vector<int> vector(1e7, 0);
-//    {
-//        LogDuration logDuration = LogDuration("test");
-//        for(int i = 0; i < vector.size(); i++)
-//            swapInt(&vector[i], &vector[vector.size()-i]);
-//    }
-    boost::multiprecision::uint256_t d(111);
-    boost::multiprecision::uint256_t b(2);
-    uint64_t c = 2;
-    std::cout << (d >> 2) << std::endl;
+//    std::cout << a << std::endl;
+
     return 0;
 }

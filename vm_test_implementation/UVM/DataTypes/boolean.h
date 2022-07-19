@@ -36,6 +36,10 @@ public:
         return this->value == rhs.value;
     }
 
+    inline bool &operator=(const bool &rhs) {
+        return this->value = rhs;
+    }
+
     inline bool operator!=(const boolean &rhs) const {
         return !(rhs == *this);
     }

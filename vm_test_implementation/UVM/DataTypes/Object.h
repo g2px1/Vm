@@ -16,12 +16,14 @@ public:
     inline Object() = default;
 
     inline explicit Object(std::string value, unsigned char type = 0) {
+        std::cout << "reference: " << value << std::endl;
         value.erase(std::remove(value.begin(), value.end(), '\"'), value.end());
         this->object = new std::string(value);
         this->type = type;
     }
 
     inline explicit Object(std::string &value, unsigned char type = 0) {
+        std::cout << "reference: " << value << std::endl;
         value.erase(std::remove(value.begin(), value.end(), '\"'), value.end());
         this->object = new std::string(value);
         this->type = type;
@@ -31,8 +33,6 @@ public:
         this->object = nullptr;
         delete(this->object);
     }
-
-
 
     std::string *object = nullptr;
     uint16_t type;
@@ -87,6 +87,10 @@ public:
 
     inline bool operator==(const Object &rhs) const {
         return *this->object == *rhs.object;
+    }
+
+    inline bool operator!=(const Object &rhs) const {
+        return *this->object != *rhs.object;
     }
 
     inline friend std::ostream &operator<<(std::ostream &os, const Object &obj) {
