@@ -18,11 +18,7 @@ public:
         this->value = u;
     }
 
-    inline explicit u64(uint64_t &u) : Object(std::to_string(u), 2) {
-        this->value = u;
-    }
-
-    inline explicit u64(uint64_t u) {
+    inline explicit u64(uint64_t u) : Object(std::to_string(u), 2) {
         this->value = u;
     }
 
@@ -90,11 +86,11 @@ public:
         return !(*this < ((u64) rhs));
     }
 
-    inline uint64_t operator+(const u64 &rhs) const {
+    inline uint64_t operator+(const u64 rhs) const {
         return (this->value + rhs.value);
     }
 
-    inline uint64_t operator+(const Object &rhs) const {
+    inline uint64_t operator+(const Object rhs) const {
         return (this->value + ((u64) rhs).value);
     }
 
@@ -278,7 +274,7 @@ public:
         return *this;
     }
 
-    inline u64 &operator=(const u64 &c2) {
+    inline u64 &operator=(const u64 c2) {
         this->value = c2.value;
         return *this;
     }

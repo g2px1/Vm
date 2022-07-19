@@ -65,6 +65,10 @@ public:
         return (this->value + rhs.value);
     }
 
+    inline double operator+(const uint64_t &rhs) const {
+        return (this->value + rhs);
+    }
+
     inline double operator-(const d64 &rhs) const {
         if (*this < rhs)
             return 0;

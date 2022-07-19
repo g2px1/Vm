@@ -16,14 +16,12 @@ public:
     inline Object() = default;
 
     inline explicit Object(std::string value, unsigned char type = 0) {
-        std::cout << "reference: " << value << std::endl;
         value.erase(std::remove(value.begin(), value.end(), '\"'), value.end());
         this->object = new std::string(value);
         this->type = type;
     }
 
     inline explicit Object(std::string &value, unsigned char type = 0) {
-        std::cout << "reference: " << value << std::endl;
         value.erase(std::remove(value.begin(), value.end(), '\"'), value.end());
         this->object = new std::string(value);
         this->type = type;

@@ -900,6 +900,96 @@ public:
             vm->stack.emplace_back(d64(1.0));
             goto *ddt[(++it)->as_int64()];
         };
+
+        iinc:{
+            vm->ip++;
+            *(vm->locals.begin() += (++it)->as_int64()) = i32((i32) *(vm->locals.begin() += (it)->as_int64()) + i32((++it)->as_int64()));
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        i2d:{
+            vm->ip++;
+            *(vm->stack.end()) = d64(vm->stack.back());
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        i2u64:{
+            vm->ip++;
+            *(vm->stack.end()) = u64(vm->stack.back());
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        i2u128:{
+            vm->ip++;
+            *(vm->stack.end()) = u128(vm->stack.back());
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        i2u256:{
+            vm->ip++;
+            *(vm->stack.end()) = u256(vm->stack.back());
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        d2i:{
+            vm->ip++;
+            *(vm->stack.end()) = d64(vm->stack.back());
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        d2u64:{
+            vm->ip++;
+            *(vm->stack.end()) = u64(vm->stack.back());
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        d2u128:{
+            vm->ip++;
+            *(vm->stack.end()) = u128(vm->stack.back());
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        d2u256:{
+            vm->ip++;
+            *(vm->stack.end()) = u256(vm->stack.back());
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u64_2u128:{
+            vm->ip++;
+            *(vm->stack.end()) = u128(vm->stack.back());
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u64_2u256:{
+            vm->ip++;
+            *(vm->stack.end()) = u256(vm->stack.back());
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u128_2u256:{
+            vm->ip++;
+            *(vm->stack.end()) = u256(vm->stack.back());
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u64inc:{
+            vm->ip++;
+            *(vm->locals.begin() += (++it)->as_int64()) = u64(u64(*(vm->locals.begin() += (it)->as_int64())) + u64(boost::json::value_to<uint64_t>(*(++it))));
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u128inc:{
+            vm->ip++;
+            *(vm->locals.begin() += (++it)->as_int64()) = u128(u64(*(vm->locals.begin() += (it)->as_int64())) + u128(boost::json::value_to<boost::multiprecision::uint128_t>(*(++it))));
+            goto *ddt[(++it)->as_int64()];
+        };
+
+        u256inc:{
+            vm->ip++;
+            *(vm->locals.begin() += (++it)->as_int64()) = u256(u64(*(vm->locals.begin() += (it)->as_int64())) + u256(boost::json::value_to<boost::multiprecision::uint256_t>(*(++it))));
+            goto *ddt[(++it)->as_int64()];
+        };
     }
 
     inline static Object invokeAdditionalFunction(VM *vm){

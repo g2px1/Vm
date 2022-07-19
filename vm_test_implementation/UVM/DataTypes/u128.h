@@ -28,13 +28,12 @@ public:
         this->value = u;
     }
 
-    inline explicit u128(boost::multiprecision::uint128_t u) {
+    inline explicit u128(boost::multiprecision::uint128_t u) : Object(u.convert_to<std::string>(), TYPE) {
         this->value = std::move(u);
     }
 
     inline explicit u128(const std::string& str) : Object(str, TYPE) {
         std::string intVal = (((str.find('.') == std::string::npos)) ? str : str.substr(0, str.find('.')));
-        std::cout << "from u128: " << intVal << std::endl;
         this->value = boost::multiprecision::uint128_t(intVal);
         this->type = TYPE;
     }
@@ -119,11 +118,12 @@ public:
 
     inline u128 &operator+=(u128 c2) {
         this->value += c2.value;
+        this->object = new std::string(c2.value.convert_to<std::string>());
         return *this;
     }
 
-    inline u128 &operator+=(Object &c2) {
-        this->value +=  ((u128) c2).value;
+    inline u128 &operator+=(Object c2) {
+        this->value += ((u128) c2).value;
         return *this;
     }
 

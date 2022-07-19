@@ -66,8 +66,7 @@ int main() {
     std::vector<Object> vector1 = {object, object1, u1, object, object1};
 
     std::vector<Object>::iterator it = vector1.begin();
-
-//    std::cout << a << std::endl;
-
+    *(it += 2) = u256(u256(1) + u256(2));
+    std::cout << ((u128)*it).value << std::endl;
     return 0;
 }

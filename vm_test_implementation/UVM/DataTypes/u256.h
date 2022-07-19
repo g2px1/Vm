@@ -26,7 +26,7 @@ public:
         this->value = u;
     }
 
-    inline explicit u256(boost::multiprecision::uint256_t u) {
+    inline explicit u256(boost::multiprecision::uint256_t u) : Object(u.convert_to<std::string>(), TYPE) {
         this->value = std::move(u);
     }
 
