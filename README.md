@@ -1,8 +1,6 @@
 # This repository will be moved into main repository(link is under) cause it's a part of unit-chain
 
-[Main repository]: https://github.com/RebornMetaverse/Unit-reborn	"Main repository"
-
-
+[Main repository](https://github.com/RebornMetaverse/Unit-reborn)
 
 # Installing
 
