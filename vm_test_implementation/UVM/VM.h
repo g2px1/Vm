@@ -1111,20 +1111,23 @@ public:
         };
 
         u64inc:{
-            vm->ip++;
-            *(vm->locals.begin() += (++it)->as_int64()) = u64(u64(*(vm->locals.begin() += (it)->as_int64())) + u64(boost::json::value_to<uint64_t>(*(++it))));
+            vm->ip+=3;
+            int index = boost::json::value_to<int>(*(++it));
+            (*(vm->locals.begin() += index)) = u64((u64)vm->locals[it->as_int64()] + u64(boost::json::value_to<int>(*(++it))));
             goto *dtt[(++it)->as_int64()];
         };
 
         u128inc:{
-            vm->ip++;
-            *(vm->locals.begin() += (++it)->as_int64()) = u128(u64(*(vm->locals.begin() += (it)->as_int64())) + u128(boost::json::value_to<std::string>(*(++it))));
+            vm->ip+=3;
+            int index = boost::json::value_to<int>(*(++it));
+            (*(vm->locals.begin() += index)) = u128((u128)vm->locals[it->as_int64()] + u128(boost::json::value_to<int>(*(++it))));
             goto *dtt[(++it)->as_int64()];
         };
 
         u256inc:{
-            vm->ip++;
-            *(vm->locals.begin() += (++it)->as_int64()) = u256(u64(*(vm->locals.begin() += (it)->as_int64())) + u256(boost::json::value_to<std::string>(*(++it))));
+            vm->ip+=3;
+            int index = boost::json::value_to<int>(*(++it));
+            (*(vm->locals.begin() += index)) = u256((u256)vm->locals[it->as_int64()] + u256(boost::json::value_to<int>(*(++it))));
             goto *dtt[(++it)->as_int64()];
         };
     }
