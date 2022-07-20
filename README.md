@@ -41,7 +41,7 @@ The block with 10,000 transactions was counted in 40 minutes with one thread on 
 
 |hex num|name   		|args |note   													|examples |Stack [before]→[after] |exception |Implemented(true/false) |
 |	:---|	:---:		|	----|				:---:										|	----|	----|	----|	----|
-|000	|stop   		| - |stop execution of the contract 							| stop |[no change] | - |false |
+|000	|stop   		| - |stop execution of the contract 							| stop |[no change] | - |true |
 | 001     | go_to            | int             | goes to another instruction at *branchoffset*                | go_to 2          |[no change] | - |true |
 |002	|swap_references   		| int,int         |swaps two references. indexing starts from top of stack   									| swap 1 3 |value1,value2→value2,value1 | - |true |
 |003	|iadd 			| num, num |adding value 											| |value1,value2→result | - |true |
@@ -202,31 +202,7 @@ The block with 10,000 transactions was counted in 40 minutes with one thread on 
 |1	|UniqueConstantPool |Contains functions and values to be loaded(unique for each program). |
 |2	|SharedConstatnPool |Contains precompiled functions, values(e.g SHA3 in the future, uint256 max value etc)(shared between programs) |
 
-> Note:
->
-> For pools implementation can be used
-
-
-
-
-
-# Update for structures and instructions
-
-#### 04.07.22
-
->Each instruction means starts with types name:
->
->- i - integer
->- u64 - uint64_t
->- u128 - uint128_t
->- u256 - uint256_t
->- b - bool
->- c - collection
->- d - double
->- st - string 
-> 
-
-# Example of program bytecode(decimals)
+# Examples of programs
 
 ## Test №1
 
@@ -283,7 +259,7 @@ std::cout << vm.stack.back() << std::endl; // 1600
 
 
 
-# Test №4
+## Test №4
 
 > Time: 0 ms
 
