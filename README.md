@@ -1,4 +1,11 @@
+# This repository will be moved into main repository(link is under) cause it's a part of unit-chain
+
+[https://github.com/RebornMetaverse/Unit-reborn]: main_repository	"Unit blockhain"
+
+
+
 # Installing
+
 1. Firstly, install `rocksdb` library
 2. Secondly, install `nlohmann_json` library
 3. Thirdly, build with cmake program in `rocksdb_uvm_support`:
@@ -14,7 +21,7 @@
 - [ ] BIP32 & BIP44
 - [ ] Pseudonymous
 - [x] VM
-- [ ] ZK-STARK
+- [ ] ZK-STARK || ZK-SNARK
 - [ ] DECENTRALIZATION
 - [ ] GPU counting Proof of Knowledge
 
@@ -30,7 +37,6 @@ The block with 10,000 transactions was counted in 40 minutes with one thread on 
 # Dependencies
 
 - rocksdb
-- nlohmann_json
 - boost
 
 # VM Opcodes
@@ -84,7 +90,7 @@ The block with 10,000 transactions was counted in 40 minutes with one thread on 
 | 044     | u256const_2      | -               | push uint256_t value 2 onto the stack                        |                  | → 2                                  | - | true |
 | 045     | u256const_3      | -               | push uint256_t value 3 onto the stack                        |                  | → 3                                  | - | true |
 | 046     | u256const_4      | -               | push uint256_t value 4 onto the stack                        |                  | → 4                                  | - | true |
-| 047     |          | int             | push object value into local 0                               |                  | [no change]                          | - |true |
+| 047     | ostore_0 | int             | push object value into local 0                               |                  | [no change]                          | - |true |
 | 048     | ostore_1         | int             | push object value into local 1                               |                  | [no change]                          | - |true |
 | 049     | ostore_2         | int             | push object value into local 2                               |                  | [no change]                          | - |true |
 | 050     | ostore_3         | int             | push object value into local 3                               |                  | [no change]                          | - |true |
@@ -279,5 +285,23 @@ boost::json::array test = uniqueConstantPool.loadFunction(function).value();
 VM::VMRun(&vm, test);
 std::cout << vm.stack.back() << std::endl; // 1600
 // values on top of stack are equal(e.g 40, 40)
+```
+
+
+
+# Test №4
+
+> Time: 0 ms
+
+```c++
+std::string code = R"({"functions": [{"test": [27, 48, 53, 29, 62, 13, 112, 1, 1, 1, 3, 0]}], "values": [{"value":"test","type":0}]})";
+UniqueConstantPool uniqueConstantPool = UniqueConstantPool(code);
+std::string function = "test";
+VM vm = VM(10, code);
+boost::json::array test = uniqueConstantPool.loadFunction(function).value();
+VM::VMRun(&vm, test);
+std::cout << vm.stack.back() << std::endl; // 2
+// [27, 48, 53, 29, 62, 13, 112, 1, 1, 1, 3, 0] is equivalent to 
+for (int i = 0; i < 2; i++) {}
 ```
 

@@ -24,6 +24,7 @@ public:
         std::istringstream iss(str);
         iss >> this->value;
         this->type = TYPE;
+        this->object = new std::string(str);
     }
 
     int value{};

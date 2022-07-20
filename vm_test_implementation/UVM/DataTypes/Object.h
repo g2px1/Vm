@@ -92,7 +92,7 @@ public:
     }
 
     inline friend std::ostream &operator<<(std::ostream &os, const Object &obj) {
-        return os << R"({"value":)" << R"(")" << *obj.object << R"(")" << R"(,"type":)" << obj.type << "}";
+        return os << R"({"value":)" << R"(")" << ((obj.object != nullptr) ? *obj.object : "") << R"(")" << R"(,"type":)" << obj.type << "}";
     }
 
     // implicit conversion

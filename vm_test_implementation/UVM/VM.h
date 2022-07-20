@@ -43,6 +43,12 @@ namespace vm {
     inline bool stringContains(std::string &str, char c) {
         return ((str.find(c) != std::string::npos));
     }
+
+    void print_registers(Registers &vector) {
+        for(int i = 0; i < vector.size(); i++)
+            std::cout << "\"" << i << "\" = " << vector[i] << std::endl;
+        std::cout << "---------------------" << std::endl;
+    }
 }
 
 class VM {
@@ -201,8 +207,8 @@ public:
         };
 
         ldc: {
-            vm->stack.emplace_back(Object(vm->uniqueConstantPool.loadReference(boost::json::value_to<int>(*(++it)))));
-            vm->ip++;
+            vm->stack.emplace_back(vm->uniqueConstantPool.loadReference(boost::json::value_to<int>(*(++it))));
+            vm->ip+=2;
             goto *dtt[(++it)->as_int64()];
         };
 
@@ -254,8 +260,9 @@ public:
         oload_1:{
             if (std::count_if(vm->locals.begin(), vm->locals.end(), null_object) == 0)
                 throw std::logic_error("Registers are full");
+            Registers::iterator reg_it = vm->locals.begin();
             vm->stack.emplace_back(vm->locals[1]);
-            vm::remove_from_locals(vm->locals, vm->locals[1]);
+//            *(reg_it += 1) = Object();
             vm->ip++;
             goto *dtt[(++it)->as_int64()];
         };
@@ -292,7 +299,9 @@ public:
 
         go_to:{
             vm->ip++;
-            std::advance(it, -((vm->ip)-(++it)->as_int64()));
+            uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+            it = (stack_val.begin() + (a-1));
+            vm->ip = a;
             goto *dtt[(it)->as_int64()];
         };
 
@@ -806,216 +815,200 @@ public:
         };
 
         if_acmpeq:{
-            vm->ip++;
-            if(vm->stack.back() == (*(vm->stack.end()-=2)))
-                goto *dtt[(it+=2)->as_int64()];
+            vm->ip+=2;
+            if(vm->stack.back() == (*(vm->stack.end()-=2))){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (it)->as_int64());
-            else
-                std::advance(it, -((vm->ip)-(it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         if_acmpne:{
-            vm->ip++;
-            if (vm->stack.back() != (*(vm->stack.end() -= 2)))
-                goto *dtt[(it += 2)->as_int64()];
+            vm->ip+=2;
+            if (vm->stack.back() != (*(vm->stack.end() -= 2))){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto*dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         if_icmpeq:{
-            vm->ip++;
-            if ((vm->stack.back().type != 1) ? u256(*vm->stack.back().object) == u256(*(*(vm->stack.end() -= 2)).object) : i32(*vm->stack.back().object) == i32(*((*(vm->stack.end() -= 2)).object)))
-                goto *dtt[(it += 2)->as_int64()];
+            vm->ip+=2;
+            if ((vm->stack.back().type != 1) ? u256(*vm->stack.back().object) == u256(*(*(vm->stack.end() -= 2)).object) : i32(*vm->stack.back().object) == i32(*((*(vm->stack.end() -= 2)).object))) {
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         if_icmpge:{
-            vm->ip++;
-            if ((vm->stack.back().type != 1) ? u256(*vm->stack.back().object) >= u256(*(*(vm->stack.end() -= 2)).object) : i32(*vm->stack.back().object) >= i32(*((*(vm->stack.end() -= 2)).object)))
-                goto *dtt[(it += 2)->as_int64()];
+            vm->ip+=2;
+            if ((vm->stack.back().type != 1) ? u256(*vm->stack.back().object) >= u256(*(*(vm->stack.end() -= 2)).object) : i32(*vm->stack.back().object) >= i32(*((*(vm->stack.end() -= 2)).object))){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         if_icmpgt:{
-            vm->ip++;
-            if ((vm->stack.back().type != 1) ? u256(*vm->stack.back().object) > u256(*(*(vm->stack.end() -= 2)).object) : i32(*vm->stack.back().object) > i32(*((*(vm->stack.end() -= 2)).object)))
-                goto *dtt[(it += 2)->as_int64()];
+            vm->ip+=2;
+            if ((vm->stack.back().type != 1) ? u256(*vm->stack.back().object) > u256(*(*(vm->stack.end() -= 2)).object) : i32(*vm->stack.back().object) > i32(*((*(vm->stack.end() -= 2)).object))){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         if_icmple:{
-            vm->ip++;
+            vm->ip+=2;
             if ((vm->stack.back().type != 1) ? u256(*vm->stack.back().object) <= u256(*(*(vm->stack.end() -= 2)).object)
-                                             : i32(*vm->stack.back().object) <= i32(*((*(vm->stack.end() -= 2)).object)))
-                goto *dtt[(it += 2)->as_int64()];
+                                             : i32(*vm->stack.back().object) <= i32(*((*(vm->stack.end() -= 2)).object))){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         if_icmplt:{
-            vm->ip++;
+            vm->ip+=2;
             if ((vm->stack.back().type != 1) ? u256(*vm->stack.back().object) < u256(*(*(vm->stack.end() -= 2)).object)
                                              : i32(*vm->stack.back().object) <
-                                               i32(*((*(vm->stack.end() -= 2)).object)))
-                goto *dtt[(it += 2)->as_int64()];
+                                               i32(*((*(vm->stack.end() -= 2)).object))){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         if_icmpne:{
-            vm->ip++;
+            vm->ip+=2;
             if ((vm->stack.back().type != 1) ? u256(*vm->stack.back().object) != u256(*(*(vm->stack.end() -= 2)).object)
                                              : i32(*vm->stack.back().object) !=
-                                               i32(*((*(vm->stack.end() -= 2)).object)))
-                goto *dtt[(it += 2)->as_int64()];
+                                               i32(*((*(vm->stack.end() -= 2)).object))){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         ifeq:{
-            vm->ip++;
-            if (i32(*vm->stack.back().object) == i32(0))
-                goto *dtt[(it += 2)->as_int64()];
+            vm->ip+=2;
+            if (i32(*vm->stack.back().object) == i32(0)){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         ifge: {
-            vm->ip++;
-            if (i32(*vm->stack.back().object) >= i32(0))
-                goto *dtt[(it += 2)->as_int64()];
+            vm->ip+=2;
+            if (i32(*vm->stack.back().object) >= i32(0)){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         ifgt:{
-            vm->ip++;
-            if (i32(*vm->stack.back().object) > i32(0))
-                goto *dtt[(it += 2)->as_int64()];
+            vm->ip+=2;
+            if (i32(*vm->stack.back().object) > i32(0)){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         ifle:{
-            vm->ip++;
-            if (i32(*vm->stack.back().object) <= i32(0))
-                goto *dtt[(it += 2)->as_int64()];
+            vm->ip+=2;
+            if (i32(*vm->stack.back().object) <= i32(0)){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         iflt:{
-            vm->ip++;
-            if (i32(*vm->stack.back().object) < i32(0))
-                goto *dtt[(it += 2)->as_int64()];
+            vm->ip+=2;
+            if (i32(*vm->stack.back().object) < i32(0)){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         ifne:{
-            vm->ip++;
-            if (i32(*vm->stack.back().object) != i32(0))
-                goto *dtt[(it += 2)->as_int64()];
+            vm->ip+=2;
+            if (i32(*vm->stack.back().object) != i32(0)){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         ifnonnull:{
-            vm->ip++;
-            if (!vm->stack.back().isNull())
-                goto *dtt[(it += 2)->as_int64()];
+            vm->ip+=2;
+            if (!vm->stack.back().isNull()){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         ifnull: {
-            vm->ip++;
-            if (vm->stack.back().isNull())
-                goto *dtt[(it += 2)->as_int64()];
+            vm->ip+=2;
+            if (vm->stack.back().isNull()){
+                uint16_t a = boost::json::value_to<uint16_t>(*(++it)) - 1;
+                vm->ip = a;
+                it = (stack_val.begin() + (--a));
+                goto *dtt[(it)->as_int64()];
+            }
 
-            if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
-            else
-                std::advance(it, -((vm->ip) - (it)->as_int64()));
-
-            goto *dtt[it->as_int64()];
+            goto *dtt[(it += 2)->as_int64()];
         };
 
         nop: {
@@ -1045,8 +1038,9 @@ public:
         };
 
         iinc:{
-            vm->ip++;
-            *(vm->locals.begin() += (++it)->as_int64()) = i32((i32) *(vm->locals.begin() += (it)->as_int64()) + i32((++it)->as_int64()));
+            vm->ip+=3;
+            int index = boost::json::value_to<int>(*(++it));
+            (*(vm->locals.begin() += index)) = i32((i32)vm->locals[it->as_int64()] + i32(boost::json::value_to<int>(*(++it))));
             goto *dtt[(++it)->as_int64()];
         };
 
@@ -1180,7 +1174,7 @@ public:
     UniqueConstantPool uniqueConstantPool;
     std::vector<Object> stack;
 private:
-    Registers locals{}; // local storage
+    Registers locals{Object(), Object(), Object(), Object()}; // local storage
     uint32_t ip = 0;
 };
 

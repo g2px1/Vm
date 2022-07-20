@@ -56,10 +56,16 @@ inline Object copy(Object &obj) {
     return object;
 }
 
+inline bool null_object(Object &object) {
+    return object.isNull();
+}
+
+typedef std::vector<Object> Registers;
+
 int main() {
     {
         LogDuration logDuration = LogDuration("test#1");
-        std::string code = R"({"functions": [{"test": [29, 29, 128, 29, 6, 6, 6, 29, 29, 128, 29, 6, 6, 6, 29, 59, 18, 6, 0]}], "values": [{"value":"test","type":0}]})";
+        std::string code = R"({"functions": [{"test": [27, 48, 53, 29, 62, 13, 112, 1, 1, 1, 3, 0]}], "values": [{"value":"test","type":0}]})";
         UniqueConstantPool uniqueConstantPool = UniqueConstantPool(code);
         std::string function = "test";
         VM vm = VM(10, code);
