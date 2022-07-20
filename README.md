@@ -275,3 +275,24 @@ std::cout << vm.stack.back() << std::endl; // 2
 for (int i = 0; i < 2; i++) {}
 ```
 
+# Tests (without program code examples)
+
+
+
+## Test #1
+
+## In this test was used only two operations: 76(dconst_1) and 80(dadd). Both of them was invoked one million times. First million was dconst_1, second million - dadd. 
+
+> CPU: Apple M1(arm64)
+> Time: 1556 ms(including all constructors and desctructors)
+>
+> Memory usage: 43Mb
+
+## Test #2 
+
+## In this test was used only two operations: 28(iconst_1) and 3(iadd). Both of them was invoked one million times. First million was iconst_1, second million - iadd. 
+
+> CPU: Apple M1(arm64)
+> Time: 1472 ms(including all constructors and desctructors)
+>
+> Memory usage: 48Mb
