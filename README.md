@@ -1,6 +1,6 @@
 # This repository will be moved into main repository(link is under) cause it's a part of unit-chain
 
-[https://github.com/RebornMetaverse/Unit-reborn]: main_repository	"Unit blockhain"
+[Main repository]: https://github.com/RebornMetaverse/Unit-reborn
 
 
 
