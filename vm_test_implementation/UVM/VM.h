@@ -811,7 +811,7 @@ public:
                 goto *dtt[(it+=2)->as_int64()];
 
             if ((++it)->as_int64() < vm->ip)
-                it += (vm->ip - (++it)->as_int64());
+                it += (vm->ip - (it)->as_int64());
             else
                 std::advance(it, -((vm->ip)-(it)->as_int64()));
 
