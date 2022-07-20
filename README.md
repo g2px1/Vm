@@ -2,7 +2,7 @@
 
 [Main repository](https://github.com/RebornMetaverse/Unit-reborn)
 
-# Installing
+# Installing(Unit-chain)
 
 1. Firstly, install `rocksdb` library
 2. Secondly, install `nlohmann_json` library
@@ -23,7 +23,7 @@
 - [ ] DECENTRALIZATION
 - [ ] GPU counting Proof of Knowledge
 
-# Tests
+# Tests(Unit-chain)
 
 ```markdown
 Recent tests show that current blockhain is able to operate on ten thousand transaction easily.
@@ -32,7 +32,7 @@ UVM proccess with 10.000 transactions consumed:
 The block with 10,000 transactions was counted in 40 minutes with one thread on the Apple M1.
 ```
 
-# Dependencies
+# Dependencies(VM && Unit-chain)
 
 - rocksdb
 - boost
@@ -199,12 +199,8 @@ The block with 10,000 transactions was counted in 40 minutes with one thread on 
 # VM Technical Structures
 |Num   |name   		|note   												     |
 |	:---		|	:---:		 |				:---:											|
-|0			   	 |instruction_stack   		|Stack with all instructions of the program 				  |
-|1	|program_counter |it contains an address of currently executed instruction. Program will be executed by moving PC through instruction set, reading opcodes and executing them |
-|2	|stack_pointer |it contains information about number of elements stored on the stack. It always points on the top of it |
-|3	|frame_pointer |frame pointer (for local scope) |
-|4	|Constant-pool 1 |used for String, int, float, ~~Class(maybe in the future)~~ and stores reference to each string |
-|5	|Constant-pool 2 |used for double, long, or a dynamically-computed constant and stores reference to each |
+|1	|UniqueConstantPool |Contains functions and values to be loaded(unique for each program). |
+|2	|SharedConstatnPool |Contains precompiled functions, values(e.g SHA3 in the future, uint256 max value etc)(shared between programs) |
 
 > Note:
 >
