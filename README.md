@@ -2,6 +2,32 @@
 
 [Main repository](https://github.com/RebornMetaverse/Unit-reborn)
 
+# ToDo:
+## Move VM to BYTECODE
+```markdown
+
+Program structure:
+{ "functions":[{"test":"<bytecode_here>", "preferences":[stack_size,locals_quantity], "unique_pool":"<bytecode_structures_here(each symbol has length = 2, each value separated by 35-th symbol: #)>"}]
+When program is executing - should be build  an array consists of bytes - it will allow to load each value by index(new value will starts with even 35-th symbol)
+
+```
+### For double
+```c++
+double a;
+std::sstream stringstream;
+build_double:{
+    if(*it_symbol == 35)
+       goto end_build_double;
+    stringstream << symbol;
+    ++it_symbol;
+    goto build_double;
+};
+
+end_build_double:{
+    a = std::stod(stringstream.str());
+};
+```
+
 # Installing(Unit-chain)
 
 1. Firstly, install `rocksdb` library
