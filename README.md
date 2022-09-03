@@ -1,3 +1,9 @@
+# Useful links:
+1) https://habr.com/ru/post/269621/
+2) https://habr.com/ru/post/269707/
+3) https://habr.com/ru/post/269863/
+4) https://habr.com/ru/post/680038/
+
 # This repository will be moved into main repository(link is under) cause it's a part of unit-chain
 
 [Main repository](https://github.com/RebornMetaverse/Unit-reborn)
