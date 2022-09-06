@@ -1,5 +1,26 @@
 # This repository will be moved into main repository(link is under) cause it's a part of unit-chain
 
+```c++
+Options options;
+
+// Enable prefix bloom for mem tables
+options.prefix_extractor.reset(NewFixedPrefixTransform(3));
+options.memtable_prefix_bloom_size_ratio = 0.1;
+
+// Enable prefix hash for SST files
+BlockBasedTableOptions table_options;
+table_options.index_type = BlockBasedTableOptions::IndexType::kHashSearch;
+
+DB* db;
+Status s = DB::Open(options, "/tmp/rocksdb",  &db);
+
+......
+
+auto iter = db->NewIterator(ReadOptions());
+iter->Seek("foobar"); // Seek inside prefix "foo"
+
+```
+
 [Main repository](https://github.com/RebornMetaverse/Unit-reborn)
 
 # ToDo:
